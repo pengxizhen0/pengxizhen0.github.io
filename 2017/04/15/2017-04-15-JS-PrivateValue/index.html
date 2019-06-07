@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="私有变量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS学习笔记——私有变量">
+<meta property="og:url" content="http://yoursite.com/2017/04/15/2017-04-15-JS-PrivateValue/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="私有变量">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2017-07-11T00:37:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS学习笔记——私有变量">
+<meta name="twitter:description" content="私有变量">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/15/2017-04-15-JS-PrivateValue/">
+
+
+
+
+
+  <title>JS学习笔记——私有变量 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            Schedule
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            Sitemap
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            Commonweal 404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/2017-04-15-JS-PrivateValue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JS学习笔记——私有变量</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-15T00:00:00+08:00">
+                2017-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  私有变量
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="0-本章提要"><a href="#0-本章提要" class="headerlink" title="0.本章提要"></a>0.本章提要</h2><h3 id="使用立即执行函数实现块级作用域"><a href="#使用立即执行函数实现块级作用域" class="headerlink" title="使用立即执行函数实现块级作用域"></a>使用立即执行函数实现块级作用域</h3><h3 id="使用构造函数实现实例私有变量：私有变量函数和公有特权方法每个实例都有独立的一份"><a href="#使用构造函数实现实例私有变量：私有变量函数和公有特权方法每个实例都有独立的一份" class="headerlink" title="使用构造函数实现实例私有变量：私有变量函数和公有特权方法每个实例都有独立的一份"></a>使用<code>构造函数</code>实现<strong>实例</strong>私有变量：私有变量函数和公有特权方法每个实例都有独立的一份</h3><h3 id="使用原型模式-块级作用域实现静态私有变量：私有变量函数和公有特权方法每个实例都共享一份"><a href="#使用原型模式-块级作用域实现静态私有变量：私有变量函数和公有特权方法每个实例都共享一份" class="headerlink" title="使用原型模式+块级作用域实现静态私有变量：私有变量函数和公有特权方法每个实例都共享一份"></a>使用<code>原型模式+块级作用域</code>实现<strong>静态</strong>私有变量：私有变量函数和公有特权方法每个实例都共享一份</h3><h2 id="1-块级作用域"><a href="#1-块级作用域" class="headerlink" title="1.块级作用域"></a>1.块级作用域</h2><p>javascript不像其他语言有块级作用域，比如C、java的块级作用域。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//C、java块级作用域</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)&#123;...&#125;</span><br><span class="line"><span class="comment">//i无效</span></span><br></pre></td></tr></table></figure>
+
+<p>javascript是以函数进行区分作用域的（具体可参考JS学习笔记——作用域链）。如果需要使用到像java一样的块级作用域，可以用函数的形式实现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> i;</span><br><span class="line">    ...</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>这个函数是立即执行函数，变量i的作用域仅限于匿名函数内，就不会对全局造成污染。而且该立即执行函数没有引用，一经执行完，作用域链就可以立即销毁。</p>
+<h2 id="2-实例私有变量"><a href="#2-实例私有变量" class="headerlink" title="2.实例私有变量"></a>2.实例私有变量</h2><p>javascript没有像java一样的对象成员访问权限的设置（private、public等）。如果要实现私有变量，可以通过构造函数的方式。下面是一种实现实例私有变量的方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;<span class="comment">//name私有变量</span></span><br><span class="line">    <span class="keyword">var</span> privateVar;<span class="comment">//私有变量</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">privateFunc</span>(<span class="params"></span>)</span>&#123;...&#125;<span class="comment">//私有函数</span></span><br><span class="line">    <span class="keyword">this</span>.getName() &#123;<span class="comment">//特权方法</span></span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.setName(value) &#123;<span class="comment">//特权方法</span></span><br><span class="line">        name = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person(<span class="string">"Season"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>将需要私有的变量和函数放到函数作用域中，外界就认为是私有的了，但我们需要一种手段去访问它们，于是<code>特权方法(privileged method)</code>就出现了，它是有权访问私有变量和函数的公有方法。<br>私有变量或函数使用表达式定义时，一定要加<code>var</code>，不然这个变量或函数就会被加到全局作用域中，就不是私有变量了。其中函数也可以使用函数声明，因为函数声明只会提升到当前作用域，不会到全局作用域中。<br>我们使用<code>this</code>把公有的特权方法定义成对象的成员，可供函数作用域外的变量访问。<br>任何函数都可以被用作构造函数，只要使用了new操作符。<code>Person()</code>函数中的私有变量没有赋值给this对象，那么这些私有变量就是局部变量，通过闭包的方式被特权方法访问，被放入到其作用域链中。所以每次new之后，特权方法和私有变量都会被再复制一份，前者属于this对象，当然会复制一份；后者通过闭包被加入到特权方法的作用域链中，也会复制一份。</p>
+<h2 id="3-静态私有变量"><a href="#3-静态私有变量" class="headerlink" title="3.静态私有变量"></a>3.静态私有变量</h2><p>使用<code>原型模式+块级作用域</code>实现<strong>静态</strong>私有变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    var privateVar = 0;</span><br><span class="line">    function privateFunc()&#123;return false;&#125;</span><br><span class="line">    MyObject = function()&#123;&#125;;</span><br><span class="line">    MyObject.prototype.publicMethod = function()&#123;</span><br><span class="line">        privateVar++;</span><br><span class="line">        return privateFunc();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var Obj = new MyObject();</span><br></pre></td></tr></table></figure>
+
+<p>这个立即执行的匿名函数不会随着new的执行而执行，因此私有变量和函数只有一份，它们的作用域仅限于匿名函数内。<code>MyObject</code>定义的时候不能加<code>var</code>，否则匿名函数外就访问不到了。特权方法定义在<code>MyObject</code>的原型上，因此特权方法也只有一个。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/13/2017-04-13-JS-DataType/" rel="next" title="JS学习笔记——数据类型">
+                <i class="fa fa-chevron-left"></i> JS学习笔记——数据类型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/16/2017-04-16-JS-AJAX/" rel="prev" title="JS学习笔记——ajax">
+                JS学习笔记——ajax <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-本章提要"><span class="nav-number">1.</span> <span class="nav-text">0.本章提要</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用立即执行函数实现块级作用域"><span class="nav-number">1.1.</span> <span class="nav-text">使用立即执行函数实现块级作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用构造函数实现实例私有变量：私有变量函数和公有特权方法每个实例都有独立的一份"><span class="nav-number">1.2.</span> <span class="nav-text">使用构造函数实现实例私有变量：私有变量函数和公有特权方法每个实例都有独立的一份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用原型模式-块级作用域实现静态私有变量：私有变量函数和公有特权方法每个实例都共享一份"><span class="nav-number">1.3.</span> <span class="nav-text">使用原型模式+块级作用域实现静态私有变量：私有变量函数和公有特权方法每个实例都共享一份</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-块级作用域"><span class="nav-number">2.</span> <span class="nav-text">1.块级作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-实例私有变量"><span class="nav-number">3.</span> <span class="nav-text">2.实例私有变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-静态私有变量"><span class="nav-number">4.</span> <span class="nav-text">3.静态私有变量</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
