@@ -1,11 +1,15 @@
 ---
-layout: post
-title: JS学习笔记——ajax
-description: ajax
+title: JS学习笔记之ajax
+categories:
+  - web前端
+tags:
+  - ajax
 date: 2017-04-16
 ---
 
 Ajax（Asynchronous JavaScript + XML）在2005年被Jesse James Garrett引入，他综合了许多当时现有技术，产生了ajax。ajax使得浏览器可以额外地向服务器请求数据而不用重新刷新页面，ajax从服务器或许到数据后，可用javascript操作DOM以改变页面。虽然ajax中的x代表XML，但目前JSON的使用要更加广泛一点。JSON更加轻量级以及是原生javascript的一部分。
+
+<!-- more -->
 
 实现ajax的核心是XMLHttpRequest对象，其使用主要是`open()`、`send()`等函数。
 

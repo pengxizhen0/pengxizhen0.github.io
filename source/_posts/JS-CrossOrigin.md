@@ -1,11 +1,15 @@
 ---
-layout: post
-title: JS学习笔记——跨域
-description: 跨域
+title: JS学习笔记之跨域
+categories:
+  - web前端
+tags:
+  - 跨域
 date: 2017-04-17
 ---
 
 现在的web应用越来越丰富，一个web上的内容往往会抓取其他web上的数据。在默认情况下，web上的交互需要遵循同源策略（Same-origin policy），即同协议、同域名、同端口。在URL`http://store.company.com/dir2/other.html`中，协议是Http、域名是store.company.com，端口是80。当不符合同源策略时，这时的通信就可以叫做跨域通信。跨域通信有许多奇奇怪怪的方法可以做到，这里就简单介绍几种。
+
+<!-- more -->
 
 ### document.domain + iframe
 `http://www.a.com`和`http://script.a.com`的交互是跨域交互，因为两者域名不同，虽然主域名都为`a.com`。

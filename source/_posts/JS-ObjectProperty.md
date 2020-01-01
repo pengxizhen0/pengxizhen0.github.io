@@ -1,12 +1,17 @@
 ---
-layout: post
-title: JS学习笔记——对象属性判断
-description: 对象属性判断
+title: JS学习笔记之对象属性判断
+categories:
+  - web前端
+tags:
+  - JS对象判断
 date: 2017-04-12
 ---
 
 ## 1. 判断对象是否为空
 我们可以使用`fon-in`语句来枚举对象的属性，属性被枚举是没有顺序的。使用for-in语句就可以判断对象是否为空，`for-in`语句还会枚举对象**原型**上的属性。当对象是`null`或者`undefined`时，函数`isEptObj()`也返回true，表示对象是空的。
+
+<!-- more -->
+
 ```javascript
 function isEptObj(o) {
     for(var t in o) {

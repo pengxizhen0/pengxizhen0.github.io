@@ -1,12 +1,17 @@
 ---
-layout: post
-title: JS学习笔记——闭包
-description: 闭包
+title: JS学习笔记之闭包
+categories:
+  - web前端
+tags:
+  - 闭包
 date: 2017-04-19
 ---
 
 ## 1. 什么是闭包
 简单的说，闭包是指**一个函数**和**这个函数的执行环境**。下面是一个最简单的闭包。函数test()根据作用域链的规则访问到了函数外面的value变量。
+
+<!-- more -->
+
 ```javascript
 var value = "pxz";
 function test() {

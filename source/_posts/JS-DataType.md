@@ -1,7 +1,9 @@
 ---
-layout: post
-title: JS学习笔记——数据类型
-description: 数据类型
+title: JS学习笔记之数据类型
+categories:
+  - web前端
+tags:
+  - JS数据类型
 date: 2017-04-13
 ---
 
@@ -9,6 +11,8 @@ date: 2017-04-13
 ECMAScript一共有6种数据类型：**5种**基本数据类型和**1种**引用数据类型。
 基本数据类型：Number\String\Boolean\Null\Undefined
 引用数据类型：Object
+
+<!-- more -->
 
 ## 2.tyepof操作符
 typeof是操作符，不是函数。typeof返回**字符串**。使用typeof返回的数据类型跟第1节是不一样的。typeof一共返回6种，也是6种，只不过是**4种**基本数据类型和**2种**引用数据类型。Null被归为Object，原本属于Object的Function被单独拎出来。
