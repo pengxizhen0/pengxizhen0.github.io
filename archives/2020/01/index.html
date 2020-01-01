@@ -79,17 +79,13 @@
 
 
 
-<meta name="description" content="ajax">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JS学习笔记——ajax">
-<meta property="og:url" content="http://yoursite.com/2017/04/16/2017-04-16-JS-AJAX/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/archives/2020/01/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="ajax">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-07T05:56:12.498Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS学习笔记——ajax">
-<meta name="twitter:description" content="ajax">
+<meta name="twitter:title" content="Hexo">
 
 
 
@@ -119,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/16/2017-04-16-JS-AJAX/">
+  <link rel="canonical" href="http://yoursite.com/archives/2020/01/">
 
 
 
 
 
-  <title>JS学习笔记——ajax | Hexo</title>
+  <title>Archive | Hexo</title>
   
 
 
@@ -144,7 +140,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-archive">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -278,153 +274,72 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-  
+      <span class="archive-page-counter">
+        
+        
+        
+          
+        
+        Um..! 8 posts in total. Keep on posting.
+      </span>
 
-  
-  
-  
+      
+
+        
+        
+        
+
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2020">2020</h1>
+          </div>
+        
+        
+
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/16/2017-04-16-JS-AJAX/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Season Peng">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
-        
-          <h1 class="post-title" itemprop="name headline">JS学习笔记——ajax</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+            <a class="post-title-link" href="/2020/01/01/test/" itemprop="url">
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span itemprop="name">test</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-16T00:00:00+08:00">
-                2017-04-16
-              </time>
-            
+            </a>
+        
+      </h2>
 
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2020-01-01T11:19:09+08:00" content="2020-01-01">
+          01-01
+        </time>
+      </div>
 
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-              <div class="post-description">
-                  ajax
-              </div>
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>Ajax（Asynchronous JavaScript + XML）在2005年被Jesse James Garrett引入，他综合了许多当时现有技术，产生了ajax。ajax使得浏览器可以额外地向服务器请求数据而不用重新刷新页面，ajax从服务器或许到数据后，可用javascript操作DOM以改变页面。虽然ajax中的x代表XML，但目前JSON的使用要更加广泛一点。JSON更加轻量级以及是原生javascript的一部分。</p>
-<p>实现ajax的核心是XMLHttpRequest对象，其使用主要是<code>open()</code>、<code>send()</code>等函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//1.new</span><br><span class="line">//2.event</span><br><span class="line">//3.open</span><br><span class="line">//4.send</span><br><span class="line"></span><br><span class="line">var xhr = new XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">//为了兼容性，事件回调需在open之前定义</span><br><span class="line">xhr.onreadystatechange = function() &#123;</span><br><span class="line">    if(xhr.readyState == 4) &#123;</span><br><span class="line">        if(xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300 | xhr.status == 304) &#123;</span><br><span class="line">            alert(xhr.responseText);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            alert(&quot;Request was failed.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//以get的方式请求example.txt，这里用相对路径，相对当前页面；最后一个参数代表是否异步。调用open之后，请求并没有发送，只是启动一个请求以备发送。</span><br><span class="line">xhr.open(&quot;get&quot;, &quot;example.txt&quot;, true);</span><br><span class="line"></span><br><span class="line">//请求主体无数据。调用send之后，请求就会被发送出去。</span><br><span class="line">xhr.send(null);</span><br></pre></td></tr></table></figure>
-
-<p>对象xhr中有一个readyState属性，这个属性表示目前ajax处于哪个状态，一般我们多使用<code>4:已经接收到全部响应数据</code>。当readyState状态改变时，会触发<code>readystatechange事件</code>。我们将该事件以DOM0级的方式添加到xhr对象上。在这个事件中，我们要检测readyState是否等于4，还要检测status。<br>还有一个在使用上比readystatechange事件要简单一点的是<code>load事件</code>，该事件就是在响应接收完毕后触发的，也就没有必要去检测readyState了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xhr.onload = function() &#123;</span><br><span class="line">    if(xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300 | xhr.status == 304) &#123;</span><br><span class="line">        alert(xhr.responseText);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        alert(&quot;Request was failed.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/04/15/2017-04-15-JS-PrivateValue/" rel="next" title="JS学习笔记——私有变量">
-                <i class="fa fa-chevron-left"></i> JS学习笔记——私有变量
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/17/2017-04-17-JS-CrossOrigin/" rel="prev" title="JS学习笔记——跨域">
-                JS学习笔记——跨域 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
       
+
     </div>
   </div>
+  
+  
+  
+
+  
+
 
 
           </div>
@@ -432,10 +347,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -632,10 +543,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
