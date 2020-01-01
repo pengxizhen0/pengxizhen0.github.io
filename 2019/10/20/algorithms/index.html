@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="算法,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="摊还分析法">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="algorithms">
+<meta property="og:url" content="https://season-peng.github.io/2019/10/20/algorithms/index.html">
+<meta property="og:site_name" content="Season Peng">
+<meta property="og:description" content="摊还分析法">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-01-01T14:15:13.510Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="algorithms">
+<meta name="twitter:description" content="摊还分析法">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://season-peng.github.io/2019/10/20/algorithms/">
+
+
+
+
+
+  <title>algorithms | Season Peng</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Season Peng</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我在这里记录着美好</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://season-peng.github.io/2019/10/20/algorithms/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Season Peng">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Season Peng">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">algorithms</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-20T13:23:37+08:00">
+                2019-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5.2k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="摊还分析法"><a href="#摊还分析法" class="headerlink" title="摊还分析法"></a>摊还分析法</h2> <a id="more"></a> 
+
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p><strong>常见题目</strong>：实现浏览器前进后退功能，表达式求解，括号匹配</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>队列可用在池化技术中，用于请求的排队等待</p>
+<h3 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h3><p>实现的要点是确定好队满和队空的判定条件</p>
+<h3 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h3><p>生产者-消费者模型</p>
+<h3 id="并发队列"><a href="#并发队列" class="headerlink" title="并发队列"></a>并发队列</h3><p>基于CAS实现无锁并发队列</p>
+<h2 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h2><p>满足以下三个条件的问题可以使用递归：</p>
+<ol>
+<li><p>一个问题可以分解为多个子问题</p>
+</li>
+<li><p>该问题与子问题的数据规模不一样，但解决思路一样</p>
+</li>
+<li><p>存在递归终止条件</p>
+</li>
+</ol>
+<p>我们找出问题与子问题的关系，写出<strong>递推公式</strong>，找出<strong>终止条件</strong>，根据这两项就可以直接得出代码。</p>
+<p>我们思考递归时，不用去想每一层的调用关系和每一个步骤，因为这样的思考人脑很难去抽象。我们需要去<strong>假定子问题已经被解决</strong>，在子问题被解决的基础上去思考新问题。</p>
+<p>递归是借助栈来实现的，所以用递归实现的地方都能改为迭代循环的方式来实现。</p>
+<p><strong>常见题目</strong>：斐波那契数列、跳蛙跳台阶、二叉树遍历</p>
+<h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><p>a&amp;(a-1)：相当于将a最右边的1变成0</p>
+<p><strong>常见题目</strong>：统计二进制中1的个数、判断是否2的幂次、m变成n需要变动几个二进制</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>当我们对数组内的元素进行删除时，可以不去删除和搬移元素，可以先标记该元素已被删除，等到数组没有更多空间时再一起处理。</p>
+<p>这个思想与JVM标记清除的GC算法一样。</p>
+<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><p>写完链表代码后，需要检查边界条件是否正确：</p>
+<ol>
+<li>链表为空</li>
+<li>链表只有1个节点</li>
+<li>链表只有2个节点</li>
+<li>代码处理头尾节点是否正确</li>
+</ol>
+<h3 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h3><p>单链表的操作比较简单，遍历只能单向从头到尾。</p>
+<p><strong>快慢指针</strong>常作为单链表解决问题的辅助手段。</p>
+<p><strong>常见题目</strong>：链表反转，环的检测，求入环点，有序链表合并，求倒数第k个节点，回文单链表，求链表中间节点</p>
+<h3 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h3><p> <strong>常见问题</strong>：约瑟夫问题</p>
+<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h3><p>工程中双向链表较为常用，因为它能在O(1)时间找到前驱节点。</p>
+<p>例如Java中的LinkedList、LinkedHashMap中都涉及到双向链表。</p>
+<p><strong>常见题目</strong>：LRU缓存（LinkedHashMap与LRU缓存原理是一样的，实现上有个小技巧：双端链表加一个header，双端链表其实是一个循环链表，这么做就不用判断表头表尾，相当于哨兵）</p>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>可以利用稳定排序算法对多个字段排序。比如对订单按照时间先后排序，相同时间的订单按照金额大小再排序。可以先按照金额进行排序，再按照时间进行稳定排序。</p>
+<h3 id="O-n-2"><a href="#O-n-2" class="headerlink" title="O(n^2)"></a>O(n^2)</h3><ul>
+<li>插入排序。工程上针对小规模数据较常用，相比冒泡排序，插入有着较少的交换次数；相比选择排序，插入是稳定的。</li>
+<li>冒泡排序。比较并交换相邻两个元素。</li>
+<li>选择排序。</li>
+</ul>
+<h3 id="O-n-logn"><a href="#O-n-logn" class="headerlink" title="O(n*logn)"></a>O(n*logn)</h3><h4 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h4><p>优点是不管什么情况下，时间复杂度都稳定在O(n*logn)。缺点是空间复杂度为O(n)，需要辅助空间，工程中较少使用。</p>
+<p><strong>*常见题目</strong>： 现在有10个接口访问日志文件，每个日志文件大小约300MB，每个文件里的日志都是按照时间戳从小到大排序的。希望将这10个较小的日志文件，合并为1个日志文件，合并之后的日志仍然按照时间戳从小到大排列。机器内存只有1GB。 </p>
+<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><p>工程上较为常用。分区点的选择是关键，如果每次都能选择到中间节点，时间复杂度是O(n*logn)。如果每次分区点都是头尾节点，那么时间复杂度就会退化为O(n^2)。工程中可以使用三数取中法或者随机法选择分区点。</p>
+<p><strong>常见题目</strong>：求第K大的数</p>
+<h4 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h4><h3 id="O-n"><a href="#O-n" class="headerlink" title="O(n)"></a>O(n)</h3><p>排序能做到线性时间是因为这些排序不是基于比较的。</p>
+<h4 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h4><p>桶排序对排序数据的要求非常严格，要求数据能平均地分配到各个桶中。</p>
+<p>桶排序比较适合用在外部排序中。</p>
+<p><strong>常见题目</strong>： 有10GB的订单数据，希望按订单金额进行排序，但是内存有限，只有几百MB，没办法一次性把10GB的数据都加载到内存中。</p>
+<p>根据年龄给100万用户排序。</p>
+<h4 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h4><p>计数排序属于桶排序，这里把它单独拎出来是因为它是特殊的桶排序。</p>
+<p>相比于桶排序，计数排序中桶的粒度更小，小到只有一个单位，就省去了桶内排序。</p>
+<p>计数排序适用于数据范围不大的情况。</p>
+<h4 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h4><p>基数排序要求数据可以分割出“位”来比较，且“位”的数据范围不能太大。对每一“位”使用桶排序，从低位一直排序到高位。</p>
+<p><strong>常见题目</strong>：对10万个手机号码从小到大排序</p>
+<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找对数据有以下要求：</p>
+<ol>
+<li>数据需要是有序的</li>
+<li>数据存储在数组中</li>
+<li>数据集太小（顺序遍历即可）或太大（数组占用连续空间）都不合适二分查找</li>
+</ol>
+<p>二分查找时间复杂度是O(logn)，对数级有时比常数级还要高效，因为常数级中的常数可能会很大。</p>
+<p>能用二分查找解决的问题，一般也能用动态数据结构散列表和二叉树解决，他们有一个区别是：二分查找由于依赖数组，因此它的占用内存会小一点，不需要存储指针等额外数据。</p>
+<p>如果用链表来实现二分查找，时间复杂度会是O(n)。</p>
+<p>二分查找适合查找近似的数值，它有4种变体问题：</p>
+<ol>
+<li>查找第一个值等于给定值的元素</li>
+<li>查找最后一个值等于给定值的元素</li>
+<li>查找第一个大于等于给定值的元素</li>
+<li>查找最后一个小于等于给定值的元素</li>
+</ol>
+<p><strong>常见题目</strong>： 有12万条IP区间与归属地的对应关系，如何快速定位出一个IP地址的归属地。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[202.102.133.0, 202.102.133.255]  山东东营市 </span><br><span class="line">[202.102.135.0, 202.102.136.255]  山东烟台</span><br></pre></td></tr></table></figure>
+
+<p>循环数据的二分查找</p>
+<h2 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h2><p>跳表可以理解为链表版的“二分”查找。时间复杂度为O(logn)，空间复杂度为O(n)。跳表出现得比红黑树晚，在类库中有现成的红黑树代码，但没有跳表。</p>
+<p><strong>常见题目</strong>：为什么redis使用跳表而不是红黑树。（1.跳表实现比较简单；2.在区间查找上，跳表效率比红黑树高）</p>
+<h2 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h2><p>散列表来源于数组，它借助散列函数对数组这种数据结构进行扩展。散列表有三个核心问题：<strong>散列函数设计</strong>、<strong>散列冲突解决</strong>、<strong>扩容策略</strong>。 </p>
+<p>冲突解决方法：开放寻址法和链表法。</p>
+<p>当数据量比较小、装载因子小的时候，适合采用开放寻址法。</p>
+<p>基于链表的散列冲突处理方法比较适合存储大对象、大数据量的散列表，而且，比起开放寻址法，它更加灵活，支持更多的优化策略，比如用红黑树代替链表</p>
+<p> ThreadLocalMap通过线性探测的开放寻址解决冲突。</p>
+<p><strong>常见题目</strong>：</p>
+<ol>
+<li>Word单词拼写检查</li>
+<li>假设有10万条URL访问日志，如何按照访问次数给URL排序</li>
+<li>有两个字符串数组，每个数组大约有10万条字符串，如何快速找出两个数组中相同的字符串</li>
+<li>LRU缓存</li>
+<li>配合跳表组成Redis有序集合</li>
+</ol>
+<h2 id="哈希算法"><a href="#哈希算法" class="headerlink" title="哈希算法"></a>哈希算法</h2><p>哈希算法有以下特点：</p>
+<ul>
+<li>从哈希值不能反向推导出原始数据（所以哈希算法也叫单向哈希算法）；</li>
+<li>对输入数据非常敏感，哪怕原始数据只修改了一个Bit，最后得到的哈希值也大不相同；</li>
+<li>散列冲突的概率要很小，对于不同的原始数据，哈希值相同的概率非常小；</li>
+<li>哈希算法的执行效率要尽量高效，针对较长的文本，也能快速地计算出哈希值。</li>
+</ul>
+<p>常用的哈希算法有MD5、SHA、DES、AES等。根据鸽巢原理，哈希算法一定是会有冲突的。</p>
+<p>哈希算法有以下几点应用：</p>
+<ol>
+<li><p>安全加密</p>
+</li>
+<li><p>唯一标识</p>
+</li>
+<li><p>数据校验</p>
+</li>
+<li><p>散列函数</p>
+</li>
+<li><p>负载均衡。同一客户端请求路由到同一机器。</p>
+</li>
+<li><p>数据分片。</p>
+<p>统计1T的搜索词日志，计算每个搜索词被搜索次数。</p>
+<p>判断某张图片是否在图库中，图库有1亿张图片。</p>
+</li>
+<li><p>分布式存储。</p>
+<p>对数据提取哈希，决定存储在哪台机器上。若新增机器，所有的数据都需要重新计算哈希。为了解决这个问题，可以使用一致性哈希算法，该算法不需要搬移全部数据，只需要将某几个小区间的数据搬移到新机器中。</p>
+</li>
+</ol>
+<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><h2 id="满二叉树"><a href="#满二叉树" class="headerlink" title="满二叉树"></a>满二叉树</h2><p>除叶子节点外，每个节点都有左右两个子节点。</p>
+<h2 id="完全二叉树"><a href="#完全二叉树" class="headerlink" title="完全二叉树"></a>完全二叉树</h2><p>有一种二叉树，叶子节点都在最底下两层，最后一层叶子节都靠左排列，并且除了最后一层，其他层的节点个数都要达到最大，这种二叉树叫做完全二叉树。 </p>
+<p>完全二叉树比较适合用数组来存储，由于不需要存储左右子节点，比较节省空间。单纯地通过数组的下标，就可以找到一个节点的左右子节点和父节点。</p>
+<h3 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h3><p>二叉查找树要求，在树中的任意一个节点，其左子树中的每个节点的值，都要小于这个节点的值，而右子树节点的值都大于这个节点的值。</p>
+<p>二叉查找树相比散列表的优势：</p>
+<ol>
+<li>散列表是无序的，二叉查找树中序遍历可输出有序。</li>
+<li>散列表需要扩容。</li>
+<li>在冲突较严重的情况下，散列表性能不稳定。</li>
+<li>散列表的构造比二叉树复杂，要考虑散列函数、扩容、缩容、冲突解决等，而二叉树只需要考虑平衡性。</li>
+<li>由于装载因子的存在，散列表较为消耗空间。</li>
+</ol>
+<h3 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h3><p>平衡二叉树的严格定义是这样的：二叉树中任意一个节点的左右子树的高度相差不能大于1。 </p>
+<h3 id="平衡二叉查找树"><a href="#平衡二叉查找树" class="headerlink" title="平衡二叉查找树"></a>平衡二叉查找树</h3><p>结合平衡树和查找树的二叉树就是平衡查找二叉树了。 平衡二叉查找树是为了解决普通二叉查找树在数据更新的过程中，复杂度退化的问题而产生的。 </p>
+<p>最先被发明的平衡二叉查找树是<strong>AVL树</strong>，它严格符合平衡二叉查找树的定义。</p>
+<p>在工程中，红黑树要比AVL树更加常用。红黑树不是严格的平衡树。它的根节点到各个叶子节点的最长路径，有可能会比最短路径大一倍。</p>
+<p>红黑树做到了近似平衡，并不是严格的平衡，所以在维护平衡的成本上，要比AVL树要低。</p>
+<p><strong>常见题目</strong>：</p>
+<ol>
+<li>前中后序遍历；</li>
+<li>层序遍历（用队列）；</li>
+<li>按层输出（用队列，且使用两个辅助变量）；</li>
+<li></li>
+</ol>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>堆是一种特殊的数，满足以下两个条件的树可以称之为堆：</p>
+<ol>
+<li>堆是一个完全二叉树；</li>
+<li>堆中每一个节点的值都必须大于等于（或小于等于）其子树中每个节点的值。 </li>
+</ol>
+<p>既然堆是完全二叉树，那么堆就适合使用数组存储。从下标为1开始，假设一个节点下标为n，那么左右两个子节点的下标分别为2n和2n+1.</p>
+<p>堆排序可分为两个阶段：<strong>建堆</strong>和<strong>排序</strong>。堆排序的时间复杂度是O(n*logn)</p>
+<p>建堆：可以采用从下至上的<strong>插入数据</strong>的方法，假设刚开始数组里只有一个元素，每次往里插入一个元素，然后堆化。</p>
+<p>排序：可以采用从上至下的<strong>删除数据</strong>的方法，将堆顶数据与最末尾的数据交换，然后重新堆化。</p>
+<p>在工程中，堆排序没有快速排序快，有以下原因：</p>
+<ol>
+<li>堆排序是跳着访问元素的，对CPU缓存不友好；</li>
+<li>由于堆排序需要建堆，建堆后的数据可能比之前更加无序。所以堆排序需要的交换次数会大于快速排序</li>
+</ol>
+<p>优先级队列是堆的一个应用方向。Java中PriorityQueue就是基于堆实现的。 </p>
+<p><strong>常见题目</strong>：</p>
+<ol>
+<li><p>topK</p>
+<p>维护一个大小为K的堆，每次新来数据就堆化数组，每次插入时间复杂度为O(logn)，取topK时间复杂度为O(1)（需要区别Partition方法的求第K大数）。</p>
+</li>
+<li><p>数据流的中位数</p>
+<p>不仅仅可以求中位数，只要改变两个堆中的数据比例，就可以求类似“接口99响应时间”等问题了。</p>
+</li>
+<li><p>合并有序小文件</p>
+<p>有100个小文件，每个文件的大小是100MB，每个文件中存储的都是有序的字符串。希望将这些100个小文件合并成一个有序的大文件。</p>
+</li>
+</ol>
+<h2 id="字符串匹配"><a href="#字符串匹配" class="headerlink" title="字符串匹配"></a>字符串匹配</h2><h3 id="单模式匹配"><a href="#单模式匹配" class="headerlink" title="单模式匹配"></a>单模式匹配</h3><h4 id="BF算法"><a href="#BF算法" class="headerlink" title="BF算法"></a>BF算法</h4><p>BF算法中的BF是Brute Force，暴力匹配。时间复杂度是O(n*m)，其中n是主串长度，m是模式串长度。</p>
+<p>BF算法简单简单朴素，效率低，但在实际开发中却较为常用。因为实际使用场景下，一般的字符串都比较小，选用BF效率影响不大。且BF算法简单不易出错。</p>
+<h4 id="RK算法"><a href="#RK算法" class="headerlink" title="RK算法"></a>RK算法</h4><p>RK算法的全称叫Rabin-Karp算法，是由它的两位发明者Rabin和Karp的名字来命名的。 </p>
+<p> RK算法的思路是这样的：我们通过哈希算法对主串中的n-m+1个子串分别求哈希值，然后逐个与模式串的哈希值比较大小。哈希算法的选择很重要，理想情况下，时间复杂度是O(n)，n为主串长度。</p>
+<h4 id="BM算法"><a href="#BM算法" class="headerlink" title="BM算法"></a>BM算法</h4><p>BM（Boyer-Moore）算法是一种非常高效的字符串匹配算法，在工程非常常用。有实验统计，它的性能是著名的KMP算法的3到4倍。我们可以在BF算法的基础上理解BM算法。</p>
+<p>在BF算法中，模式串在匹配失败后会往后移动一位。BM算法就是找到规律，让模式串每次多往后移动几位，减少不必要的字符比较。</p>
+<p>BM算法的时间复杂度分析起来是非常复杂，这篇论文“<a href="http://dl.acm.org/citation.cfm?id=127830" target="_blank" rel="noopener">Tight bounds on the complexity of the Boyer-Moore string matching algorithm</a>”证明了在最坏情况下，BM算法的比较次数上限是3n。 </p>
+<p><strong>常见题目</strong>：文本编辑器的查找功能。</p>
+<h4 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h4><p>KMP算法是根据三位作者（D.E.Knuth，J.H.Morris和V.R.Pratt）的名字来命名的。KMP算法的核心思想，跟BM算法非常相近。在模式串与主串匹配的过程中，当遇到不可匹配的字符的时候，我们希望找到一些规律，可以将模式串往后多滑动几位。</p>
+<p>KMP算法的时间复杂度就是O(m+n) 。</p>
+<h3 id="多模式匹配"><a href="#多模式匹配" class="headerlink" title="多模式匹配"></a>多模式匹配</h3><h4 id="Trie树"><a href="#Trie树" class="headerlink" title="Trie树"></a>Trie树</h4><p>Trie树，也叫“字典树”。顾名思义，它是一个树形结构。它是一种专门处理字符串匹配的数据结构， 用来解决<strong>在一组字符串集合中快速查找某个字符串</strong>的问题。Trie树的本质，就是利用字符串之间的公共前缀，将重复的前缀合并在一起。构建Tire树的时间复杂度是O(m)，m表示所有字符串的长度和。</p>
+<p>将多个模式串构建成Tire树。Tire树构建完成后，就可以用主串来走这个Tire树了。时间复杂度为O(n)，n为要查询的主串长度。</p>
+<p>Tire的存储是比较浪费空间的，我们需要在效率和空间中找到平衡。</p>
+<p>实际上，字符串的匹配问题，笼统上讲，其实就是数据的查找问题。对于支持动态数据高效操作的数据结构，比如散列表、红黑树、跳表等等。这些数据结构也可以实现在一组字符串中查找字符串的功能。我们拿散列表和红黑树，跟Trie树比较一下。Tire树对多个模式串有一定的要求，若不满足以下要求，Tire树的空间消耗会比较大：</p>
+<ol>
+<li><p>字符串中包含的字符集尽量要小；</p>
+</li>
+<li><p>字符串的前缀重合尽量要多。</p>
+</li>
+</ol>
+<p>Trie树更加适合查找前缀匹配的字符串问题。散列表或者红黑树更加适合精确匹配查找问题。</p>
+<p><strong>常见题目</strong>：</p>
+<ol>
+<li>手机英文输入自动提示单词（ACM题目：POJ1451 T9 <a href="http://poj.org/problem?id=1451）；" target="_blank" rel="noopener">http://poj.org/problem?id=1451）；</a></li>
+<li>搜索引擎的搜索关键词提示功能</li>
+</ol>
+<h4 id="AC自动机"><a href="#AC自动机" class="headerlink" title="AC自动机"></a>AC自动机</h4><p>AC自动机算法，全称是Aho-Corasick算法。其实，Trie树跟AC自动机之间的关系，就像单串匹配中朴素的串匹配BF算法，跟KMP算法之间的关系一样。<strong>AC自动机实际上就是在Trie树之上，加了类似KMP的next数组，只不过此处的next数组是构建在树上罢了</strong>。AC自动机适合大量文本中多模式串的精确匹配查找，时间复杂度可以到O(n*len)。len是模式串的平均长度。</p>
+<p><strong>常见题目</strong>：论坛中的敏感词过滤。 </p>
+<p>动态数据结构：散列表、二叉树、跳表</p>
+<h1 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h1><h1 id="分治算法"><a href="#分治算法" class="headerlink" title="分治算法"></a>分治算法</h1><p>子问题之间没有相关性</p>
+<p><strong>常见题目</strong>：求逆序对数量（借助归并排序）</p>
+<h1 id="回溯算法"><a href="#回溯算法" class="headerlink" title="回溯算法"></a>回溯算法</h1><p>回溯是一种在一组可能的解中，找到符合要求解的算法。剪枝操作可以增加回溯的效率。</p>
+<p><strong>常见问题</strong>：深度优先遍历、01背包、8皇后、旅行商问题、全排列等。</p>
+<h2 id="位运算-1"><a href="#位运算-1" class="headerlink" title="位运算"></a>位运算</h2><p>二进制1的个数（n&amp;(n-1)）</p>
+<h2 id="二分查找-1"><a href="#二分查找-1" class="headerlink" title="二分查找"></a>二分查找</h2><p>杨氏矩阵是否存在某树（leetcode 74）</p>
+<p>单峰值数组寻找峰值</p>
+<p>多峰值数组寻找峰值</p>
+<h2 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h2><p>字符串翻转（单词，旋转）</p>
+<h2 id="堆-1"><a href="#堆-1" class="headerlink" title="堆"></a>堆</h2><p>数据流中位数</p>
+<h2 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h2><p>二维矩阵中找字符串，不能重复（leetcode 79）</p>
+<p>全排列</p>
+<h2 id="二叉树-1"><a href="#二叉树-1" class="headerlink" title="二叉树"></a>二叉树</h2><ol>
+<li><p>二叉树深度（leetcode 104后序遍历）</p>
+</li>
+<li><p>判断是否平衡二叉树（leetcode 110后序遍历）</p>
+</li>
+<li><p>判断是否为另一棵树的子结构（leetcode 572）</p>
+</li>
+<li><p>判断是否镜像树（leetcode 101）</p>
+</li>
+<li><p>二叉树的最大直径（与深度有关）</p>
+</li>
+<li><p>合并二叉树</p>
+</li>
+<li><p>求两个节点的最低公共祖先（leetcode 236）</p>
+</li>
+<li><p>前中后序遍历</p>
+</li>
+<li><p>中序遍历的下一个节点（优先考虑右子树最左节点，若不存在，则考虑父节点）</p>
+</li>
+</ol>
+<h2 id="链表-1"><a href="#链表-1" class="headerlink" title="链表"></a>链表</h2><ol>
+<li>判断是否单链表回文</li>
+<li>奇偶链表反转</li>
+<li>两个链表的第一个交叉点（交换遍历）</li>
+</ol>
+<h2 id="Bit-Map"><a href="#Bit-Map" class="headerlink" title="Bit Map"></a>Bit Map</h2><ol>
+<li>使用10MB内存，找出40亿个整数的中位数</li>
+<li>40亿个非负整数中找到出现两次的数</li>
+<li>40亿个非负整数中找到没出现的数</li>
+</ol>
+<h2 id="数组-1"><a href="#数组-1" class="headerlink" title="数组"></a>数组</h2><p>连续子数组的最大和（DP）</p>
+<p>下一个排列</p>
+<ol>
+<li>范围[1,n]共n+1个数，找唯一一个重复的数（使用环检测）</li>
+<li>范围[0,n-1]共n个数，找重复的数（下标位置互换）</li>
+<li>滑动窗口中的最大值</li>
+<li>数组中找第K大的数（使用快排中的partition，O(n)，特例：找出出现次数超过一半的数，计数法？）</li>
+<li>数组中找出TopK（1.使用partition，会修改数组；2.使用堆O(n*logk)，不会修改数组，适合大数据）</li>
+<li>某数字在排序数组中出现的次数（两次二分查找找头尾，O(logn)）</li>
+<li>数组中只出现一次的数/数组中出现两次的数（使用异或位运算）</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/19/MESI/" rel="next" title="MESI">
+                <i class="fa fa-chevron-left"></i> MESI
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/31/Guava限流/" rel="prev" title="Guava限流">
+                Guava限流 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Season Peng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摊还分析法"><span class="nav-number">1.</span> <span class="nav-text">摊还分析法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈"><span class="nav-number">2.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-number">3.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#循环队列"><span class="nav-number">3.1.</span> <span class="nav-text">循环队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞队列"><span class="nav-number">3.2.</span> <span class="nav-text">阻塞队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发队列"><span class="nav-number">3.3.</span> <span class="nav-text">并发队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递归"><span class="nav-number">4.</span> <span class="nav-text">递归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#位运算"><span class="nav-number">5.</span> <span class="nav-text">位运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">6.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链表"><span class="nav-number">7.</span> <span class="nav-text">链表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单链表"><span class="nav-number">7.1.</span> <span class="nav-text">单链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环链表"><span class="nav-number">7.2.</span> <span class="nav-text">循环链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双向链表"><span class="nav-number">7.3.</span> <span class="nav-text">双向链表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序"><span class="nav-number">8.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#O-n-2"><span class="nav-number">8.1.</span> <span class="nav-text">O(n^2)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#O-n-logn"><span class="nav-number">8.2.</span> <span class="nav-text">O(n*logn)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#归并排序"><span class="nav-number">8.2.1.</span> <span class="nav-text">归并排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#快速排序"><span class="nav-number">8.2.2.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#堆排序"><span class="nav-number">8.2.3.</span> <span class="nav-text">堆排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#O-n"><span class="nav-number">8.3.</span> <span class="nav-text">O(n)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#桶排序"><span class="nav-number">8.3.1.</span> <span class="nav-text">桶排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计数排序"><span class="nav-number">8.3.2.</span> <span class="nav-text">计数排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基数排序"><span class="nav-number">8.3.3.</span> <span class="nav-text">基数排序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找"><span class="nav-number">9.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跳表"><span class="nav-number">10.</span> <span class="nav-text">跳表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#散列表"><span class="nav-number">11.</span> <span class="nav-text">散列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希算法"><span class="nav-number">12.</span> <span class="nav-text">哈希算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树"><span class="nav-number">13.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#满二叉树"><span class="nav-number">14.</span> <span class="nav-text">满二叉树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完全二叉树"><span class="nav-number">15.</span> <span class="nav-text">完全二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉查找树"><span class="nav-number">15.1.</span> <span class="nav-text">二叉查找树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平衡二叉树"><span class="nav-number">15.2.</span> <span class="nav-text">平衡二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平衡二叉查找树"><span class="nav-number">15.3.</span> <span class="nav-text">平衡二叉查找树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆"><span class="nav-number">16.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串匹配"><span class="nav-number">17.</span> <span class="nav-text">字符串匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单模式匹配"><span class="nav-number">17.1.</span> <span class="nav-text">单模式匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BF算法"><span class="nav-number">17.1.1.</span> <span class="nav-text">BF算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RK算法"><span class="nav-number">17.1.2.</span> <span class="nav-text">RK算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BM算法"><span class="nav-number">17.1.3.</span> <span class="nav-text">BM算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KMP"><span class="nav-number">17.1.4.</span> <span class="nav-text">KMP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多模式匹配"><span class="nav-number">17.2.</span> <span class="nav-text">多模式匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Trie树"><span class="nav-number">17.2.1.</span> <span class="nav-text">Trie树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AC自动机"><span class="nav-number">17.2.2.</span> <span class="nav-text">AC自动机</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#贪心算法"><span class="nav-number"></span> <span class="nav-text">贪心算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分治算法"><span class="nav-number"></span> <span class="nav-text">分治算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回溯算法"><span class="nav-number"></span> <span class="nav-text">回溯算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#位运算-1"><span class="nav-number">1.</span> <span class="nav-text">位运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找-1"><span class="nav-number">2.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双指针"><span class="nav-number">3.</span> <span class="nav-text">双指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆-1"><span class="nav-number">4.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DFS"><span class="nav-number">5.</span> <span class="nav-text">DFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树-1"><span class="nav-number">6.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链表-1"><span class="nav-number">7.</span> <span class="nav-text">链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bit-Map"><span class="nav-number">8.</span> <span class="nav-text">Bit Map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组-1"><span class="nav-number">9.</span> <span class="nav-text">数组</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Season Peng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
