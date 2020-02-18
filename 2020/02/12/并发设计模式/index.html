@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="tag1,tag2,">
+  <meta name="keywords" content="Copy on Write,生产者-消费者,两阶段终止,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="图片：   svg： 摘要：">
-<meta name="keywords" content="tag1,tag2">
+<meta name="description" content="Immutability模式不变性（Immutability）模式，即对象一旦被创建之后，状态就不再发生变化。我们知道多个线程同时读写同一共享变量会存在并发问题，如果我们把这里的共享变量改为只读，就不会有并发问题。 我们常用的Integer、Long、Double、String等类都使用了该模式，这些类本身和属性都使用final关键字修饰，使得类不能被继承，属性不能被修改。 当我们对这些类进行修改">
+<meta name="keywords" content="Copy on Write,生产者-消费者,两阶段终止">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发设计模式">
 <meta property="og:url" content="https://season-peng.github.io/2020/02/12/并发设计模式/index.html">
 <meta property="og:site_name" content="Season Peng">
-<meta property="og:description" content="图片：   svg： 摘要：">
+<meta property="og:description" content="Immutability模式不变性（Immutability）模式，即对象一旦被创建之后，状态就不再发生变化。我们知道多个线程同时读写同一共享变量会存在并发问题，如果我们把这里的共享变量改为只读，就不会有并发问题。 我们常用的Integer、Long、Double、String等类都使用了该模式，这些类本身和属性都使用final关键字修饰，使得类不能被继承，属性不能被修改。 当我们对这些类进行修改">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-14T08:01:06.234Z">
+<meta property="og:updated_time" content="2020-02-18T08:48:51.664Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="并发设计模式">
-<meta name="twitter:description" content="图片：   svg： 摘要：">
+<meta name="twitter:description" content="Immutability模式不变性（Immutability）模式，即对象一旦被创建之后，状态就不再发生变化。我们知道多个线程同时读写同一共享变量会存在并发问题，如果我们把这里的共享变量改为只读，就不会有并发问题。 我们常用的Integer、Long、Double、String等类都使用了该模式，这些类本身和属性都使用final关键字修饰，使得类不能被继承，属性不能被修改。 当我们对这些类进行修改">
 
 
 
@@ -347,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/category/" itemprop="url" rel="index">
-                    <span itemprop="name">category</span>
+                  <a href="/categories/并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">并发编程</span>
                   </a>
                 </span>
 
@@ -378,7 +378,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  953
+                  948
                 </span>
               
 
@@ -403,10 +403,7 @@
       
 
       
-        <p>图片：  </p>
-<p>svg：<embed src="AQS_queue.svg" width="100%" type="image/svg+xml"></p>
-<p>摘要：<a id="more"></a> </p>
-<h1 id="Immutability模式"><a href="#Immutability模式" class="headerlink" title="Immutability模式"></a>Immutability模式</h1><p>不变性（Immutability）模式，即对象一旦被创建之后，状态就不再发生变化。我们知道多个线程同时读写同一共享变量会存在并发问题，如果我们把这里的共享变量改为只读，就不会有并发问题。</p>
+        <h1 id="Immutability模式"><a href="#Immutability模式" class="headerlink" title="Immutability模式"></a>Immutability模式</h1><p>不变性（Immutability）模式，即对象一旦被创建之后，状态就不再发生变化。我们知道多个线程同时读写同一共享变量会存在并发问题，如果我们把这里的共享变量改为只读，就不会有并发问题。</p>
 <p>我们常用的Integer、Long、Double、String等类都使用了该模式，这些类本身和属性都使用final关键字修饰，使得类不能被继承，属性不能被修改。</p>
 <p>当我们对这些类进行修改时，实际上是创建一个新的对象并返回，并不会对旧对象进行修改。</p>
 <p>如果我们每次修改都创建新对象的话，是不是有点浪费内存了。针对这点，人们又提出享元模式（Flyweight Pattern）。享元模式可以理解为对象池，对于Long、Integer、Short、Byte等包装类，会预先缓存好常用的数据，之后需要使用到该数据就从缓存中拿。例如Long缓存了数字[-128,127]，这个对象池在JVM启动时就会创建好。</p>
@@ -446,9 +443,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/tag1/" rel="tag"># tag1</a>
+            <a href="/tags/Copy-on-Write/" rel="tag"># Copy on Write</a>
           
-            <a href="/tags/tag2/" rel="tag"># tag2</a>
+            <a href="/tags/生产者-消费者/" rel="tag"># 生产者-消费者</a>
+          
+            <a href="/tags/两阶段终止/" rel="tag"># 两阶段终止</a>
           
         </div>
       
@@ -557,7 +556,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -568,7 +567,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

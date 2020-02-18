@@ -3,10 +3,7 @@
   <entry>
     <title>并发设计模式</title>
     <url>/2020/02/12/%E5%B9%B6%E5%8F%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<p>图片：  </p>
-<p>svg：<embed src="AQS_queue.svg" width="100%" type="image/svg+xml"></p>
-<p>摘要：<a id="more"></a> </p>
-<h1 id="Immutability模式"><a href="#Immutability模式" class="headerlink" title="Immutability模式"></a>Immutability模式</h1><p>不变性（Immutability）模式，即对象一旦被创建之后，状态就不再发生变化。我们知道多个线程同时读写同一共享变量会存在并发问题，如果我们把这里的共享变量改为只读，就不会有并发问题。</p>
+    <content><![CDATA[<h1 id="Immutability模式"><a href="#Immutability模式" class="headerlink" title="Immutability模式"></a>Immutability模式</h1><p>不变性（Immutability）模式，即对象一旦被创建之后，状态就不再发生变化。我们知道多个线程同时读写同一共享变量会存在并发问题，如果我们把这里的共享变量改为只读，就不会有并发问题。</p>
 <p>我们常用的Integer、Long、Double、String等类都使用了该模式，这些类本身和属性都使用final关键字修饰，使得类不能被继承，属性不能被修改。</p>
 <p>当我们对这些类进行修改时，实际上是创建一个新的对象并返回，并不会对旧对象进行修改。</p>
 <p>如果我们每次修改都创建新对象的话，是不是有点浪费内存了。针对这点，人们又提出享元模式（Flyweight Pattern）。享元模式可以理解为对象池，对于Long、Integer、Short、Byte等包装类，会预先缓存好常用的数据，之后需要使用到该数据就从缓存中拿。例如Long缓存了数字[-128,127]，这个对象池在JVM启动时就会创建好。</p>
@@ -31,11 +28,12 @@
 </ul>
 ]]></content>
       <categories>
-        <category>category</category>
+        <category>并发编程</category>
       </categories>
       <tags>
-        <tag>tag1</tag>
-        <tag>tag2</tag>
+        <tag>Copy on Write</tag>
+        <tag>生产者-消费者</tag>
+        <tag>两阶段终止</tag>
       </tags>
   </entry>
   <entry>
@@ -138,9 +136,7 @@
   <entry>
     <title>分布式事务</title>
     <url>/2020/01/25/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
-    <content><![CDATA[<p>图片：  </p>
-<p>svg：<embed src="AQS_queue.svg" width="100%" type="image/svg+xml"></p>
-<p>单数据源的一致性可以使用单机事务来保证，多数据源的一致性需要使用分布式事务来保证。</p>
+    <content><![CDATA[<p>单数据源的一致性可以使用单机事务来保证，多数据源的一致性需要使用分布式事务来保证。</p>
 <p>ACID（A原子性、C一致性、I隔离性、D持久性）是单机事务的特性。</p>
 <p>CAP、BASE理论是分布式领域的理论。</p>
 <a id="more"></a> 
@@ -261,9 +257,9 @@
     <url>/2020/01/11/Mybatis%E6%95%B0%E6%8D%AE%E6%BA%90%E4%B8%8E%E8%BF%9E%E6%8E%A5%E6%B1%A0/</url>
     <content><![CDATA[<p>对于ORM（Object Relational Mapping）框架而言，数据源的组织是一个非常重要的一部分，这直接影响到框架的性能问题。本文将通过对MyBatis框架的数据源结构进行详尽的分析，并且深入解析MyBatis的连接池。</p>
 <p>本文首先会讲述MyBatis的数据源的分类，然后会介绍数据源是如何加载和使用的。紧接着将分类介绍UNPOOLED、POOLED和JNDI类型的数据源组织；期间我们会重点讲解POOLED类型的数据源和其实现的连接池原理。</p>
-<p>图片：  </p>
-<p>svg：<embed src="AQS_queue.svg" width="100%" type="image/svg+xml"></p>
-<p> 摘要：<a id="more"></a> </p>
+<a id="more"></a> 
+
+
 <p>MyBatis将数据源分为三种类型：</p>
 <ol>
 <li>unpooled，不使用连接池的数据源</li>
@@ -563,8 +559,8 @@
       </categories>
       <tags>
         <tag>MySQL</tag>
-        <tag>ZooKeeper</tag>
         <tag>分布式锁</tag>
+        <tag>ZooKeeper</tag>
       </tags>
   </entry>
   <entry>
@@ -1157,8 +1153,8 @@
         <category>微服务</category>
       </categories>
       <tags>
-        <tag>Git</tag>
         <tag>ZooKeeper</tag>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>

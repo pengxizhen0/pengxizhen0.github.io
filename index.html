@@ -346,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/category/" itemprop="url" rel="index">
-                    <span itemprop="name">category</span>
+                  <a href="/categories/并发编程/" itemprop="url" rel="index">
+                    <span itemprop="name">并发编程</span>
                   </a>
                 </span>
 
@@ -377,7 +377,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  953
+                  948
                 </span>
               
 
@@ -403,19 +403,35 @@
 
       
         
-          <p>图片：  </p>
-<p>svg：<embed src="AQS_queue.svg" width="100%" type="image/svg+xml"></p>
-<p>摘要：
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/12/并发设计模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <h1 id="Immutability模式"><a href="#Immutability模式" class="headerlink" title="Immutability模式"></a>Immutability模式</h1><p>不变性（Immutability）模式，即对象一旦被创建之后，状态就不再发生变化。我们知道多个线程同时读写同一共享变量会存在并发问题，如果我们把这里的共享变量改为只读，就不会有并发问题。</p>
+<p>我们常用的Integer、Long、Double、String等类都使用了该模式，这些类本身和属性都使用final关键字修饰，使得类不能被继承，属性不能被修改。</p>
+<p>当我们对这些类进行修改时，实际上是创建一个新的对象并返回，并不会对旧对象进行修改。</p>
+<p>如果我们每次修改都创建新对象的话，是不是有点浪费内存了。针对这点，人们又提出享元模式（Flyweight Pattern）。享元模式可以理解为对象池，对于Long、Integer、Short、Byte等包装类，会预先缓存好常用的数据，之后需要使用到该数据就从缓存中拿。例如Long缓存了数字[-128,127]，这个对象池在JVM启动时就会创建好。</p>
+<p>若final修饰变量a，说明a的引用不可变，但并不约束引用内容的可变性。例如引用的是对象A，那么对象A的属性是否可变不受该final约束。</p>
+<h1 id="Copy-on-Write模式"><a href="#Copy-on-Write模式" class="headerlink" title="Copy on Write模式"></a>Copy on Write模式</h1><p>在Immutability模式中，对只读对象的修改会创建新的对象，这种方法是写时复制（Copy on Write, Cow）。CoW是解决不可变对象写操作的一个方法。</p>
+<p>Copy on Write在许多领域都有广泛的应用，例如Linux中的<code>fork()</code>、Redis中的BGSAVE（本质也是<code>fork()</code>）、Java中的CopyOnWriteArrayList等。</p>
+<p>CoW的缺点是会消耗较多内存，所以在写操作频繁以及数据量较大时不适合使用。</p>
+<h1 id="线程本地存储模式"><a href="#线程本地存储模式" class="headerlink" title="线程本地存储模式"></a>线程本地存储模式</h1><p>线程本地存储模式是指不共享数据，每个线程有一份自己的数据备份。例如ThreadLocal和局部变量。</p>
+<h1 id="Guarded-Suspension模式"><a href="#Guarded-Suspension模式" class="headerlink" title="Guarded Suspension模式"></a>Guarded Suspension模式</h1><p>Guarded Suspension模式本质上是一种等待唤醒机制的实现，典型的实现就是管程。</p>
+<p>该模式与Balking模式都是多线程的if版本，区别是该模式会一直等待if条件变为真。</p>
+<h1 id="Balking模式"><a href="#Balking模式" class="headerlink" title="Balking模式"></a>Balking模式</h1><p>Balking模式是指在多线程之间共享一个状态变量，业务逻辑依赖于这个状态变量的状态：当状态满足某个条件时，执行某个业务逻辑。在Java中实现Balking模式的关键是可见性，可见性可以通过互斥锁和volatile解决。</p>
+<p>双重检查的单例模式就是Balking模式的一个应用。</p>
+<p>该模式与Guarded Suspension模式都是多线程的if版本，区别是该模式只会判断一次条件，不会等待。</p>
+<h1 id="Thread-Per-Message模式"><a href="#Thread-Per-Message模式" class="headerlink" title="Thread-Per-Message模式"></a>Thread-Per-Message模式</h1><p>Thread-Per-Message模式，即为每个任务分配一个独立的线程。Thread-Per-Message模式的一个最经典的应用场景是网络编程里服务端的实现，服务端为每个客户端请求创建一个独立的线程。</p>
+<h1 id="Work-Thread模式"><a href="#Work-Thread模式" class="headerlink" title="Work Thread模式"></a>Work Thread模式</h1><p>Worker Thread模式可以类比现实世界里车间的工作模式：车间里的工人，有活儿了，大家一起干，没活儿了就聊聊天等着。Worker Thread对应到现实世界里，其实指的就是车间里的工人。</p>
+<p>Java中的线程池采用了这种模式。</p>
+<h1 id="两阶段终止模式"><a href="#两阶段终止模式" class="headerlink" title="两阶段终止模式"></a>两阶段终止模式</h1><p>两阶段终止模式，即将终止过程分成两个阶段。用于优雅地终止线程，其中第一阶段主要是线程T1向线程T2发送终止指令，第二阶段则是线程T2响应指令。</p>
+<h1 id="生产者-消费者模式"><a href="#生产者-消费者模式" class="headerlink" title="生产者-消费者模式"></a>生产者-消费者模式</h1><ul>
+<li>解耦</li>
+<li>异步</li>
+<li>平衡生产者、消费者之间的速度差异</li>
+</ul>
+
+          
         
       
-    </p></div>
+    </div>
     
     
     
@@ -711,7 +727,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  457
+                  454
                 </span>
               
 
@@ -737,9 +753,7 @@
 
       
         
-          <p>图片：  </p>
-<p>svg：<embed src="AQS_queue.svg" width="100%" type="image/svg+xml"></p>
-<p>单数据源的一致性可以使用单机事务来保证，多数据源的一致性需要使用分布式事务来保证。</p>
+          <p>单数据源的一致性可以使用单机事务来保证，多数据源的一致性需要使用分布式事务来保证。</p>
 <p>ACID（A原子性、C一致性、I隔离性、D持久性）是单机事务的特性。</p>
 <p>CAP、BASE理论是分布式领域的理论。</p>
           <!--noindex-->
@@ -1047,7 +1061,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  781
+                  776
                 </span>
               
 
@@ -1075,9 +1089,6 @@
         
           <p>对于ORM（Object Relational Mapping）框架而言，数据源的组织是一个非常重要的一部分，这直接影响到框架的性能问题。本文将通过对MyBatis框架的数据源结构进行详尽的分析，并且深入解析MyBatis的连接池。</p>
 <p>本文首先会讲述MyBatis的数据源的分类，然后会介绍数据源是如何加载和使用的。紧接着将分类介绍UNPOOLED、POOLED和JNDI类型的数据源组织；期间我们会重点讲解POOLED类型的数据源和其实现的连接池原理。</p>
-<p>图片：  </p>
-<p>svg：<embed src="AQS_queue.svg" width="100%" type="image/svg+xml"></p>
-<p> 摘要：
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/01/11/Mybatis数据源与连接池/#more" rel="contents">
@@ -1087,7 +1098,7 @@
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -2016,7 +2027,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2027,7 +2038,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
