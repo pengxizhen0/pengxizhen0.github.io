@@ -12,9 +12,9 @@ date: 2019-09-09 10:06:25
 
 <!-- more --> 
 
-ThreadLocal类提供了thread-local的变量，即每个线程都持有一份各自独立的变量。每个线程都有一个ThreadLocalMap类型的变量，在Thread类中。
+ThreadLocal类提供了thread-local的变量，即每个线程都持有一份各自独立的变量。每个Thread类中有一个ThreadLocalMap类型的变量。
 
-具体的ThreadLocalMap实例并不是ThreadLocal持有的，而是每个Thread持有，且不同的Thread持有不同的ThreadLocalMap实例, 因此它们不存在竞争。
+具体的ThreadLocalMap实例并不是ThreadLocal持有的，而是每个Thread持有，且不同的Thread持有不同的ThreadLocalMap实例, 因此它们不存在竞争。每个ThreadLocal只存一个数据，要在同个线程中存多个数据需要多个ThreadLocal。
 
 下面是ThreadLocal对象引用图，下面的内容参考这张图看会更加容易理解。
 

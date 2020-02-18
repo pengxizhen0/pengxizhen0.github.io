@@ -18,10 +18,12 @@ LockSupport替代了Thread.suspend和Thread.resume的功能，Thread的suspend�
 
 ```java
 //LockSupport.java
+//挂起
 public static void park() {
     UNSAFE.park(false, 0L);
 }
 
+//唤醒
 public static void unpark(Thread thread) {
     if (thread != null)
         UNSAFE.unpark(thread);
@@ -36,15 +38,15 @@ public static void unpark(Thread thread) {
 
 park方法应该放在一个循环中使用，因为会存在虚假唤醒的情况。
 
-在LockSupport的实现中，UNSAFE.park()和UNSAFE.unpark()是native方法。在openjdk/hotspot/src/share/vm/prims/unsafe.cpp可以找到UNSAFE的实现，`thread->parker()->park(isAbsolute != 0, time);`在UNSAFE中调用了Parker类的方法。以下为linux下park、unpark的实现。有关许可的部分，是借助了_counter变量来实现的。
+在LockSupport的实现中，UNSAFE.park()和UNSAFE.unpark()是native方法。在openjdk/hotspot/src/share/vm/prims/unsafe.cpp可以找到UNSAFE的实现（`thread->parker()->park(isAbsolute != 0, time);`）UNSAFE调用了Parker类的方法。以下为linux下park、unpark的实现。有关许可的部分，是借助了_counter变量来实现的。
 
-该实现主要使用了Pthread中的条件变量。有关Pthread可参考。
+该实现主要使用了Pthread中的互斥锁和条件变量。有关Pthread可参考。
 
 ```c++
 //openjdk/hotspot/src/os/linux/vm/os_linux.cpp
 //已删去本次不关注的部分
 void Parker::park(bool isAbsolute, jlong time) {
-  //检查是否调用过unpark，若是，则不阻塞
+  //检查是否调用过unpark唤醒，若是，则不阻塞
   if (Atomic::xchg(0, &_counter) > 0) return;
 
   //条件等待时，需要加锁
@@ -101,6 +103,26 @@ void Parker::unpark() {
   }
 }
 ```
+
+```c++
+class Parker : public os::PlatformParker {  
+private:  
+  volatile int _counter ;  
+  ...  
+public:  
+  void park(bool isAbsolute, jlong time);  
+  void unpark();  
+  ...  
+}  
+class PlatformParker : public CHeapObj<mtInternal> {  
+  protected:  
+    pthread_mutex_t _mutex [1] ;  
+    pthread_cond_t  _cond  [1] ;  
+    ...  
+}
+```
+
+每个Java线程持有一个Parker实例，每个Parker实例中持有一个条件变量和互斥锁，因此当调用unpark唤醒的时候，是可以指定唤醒哪个线程的。
 
 
 
