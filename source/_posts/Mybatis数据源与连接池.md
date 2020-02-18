@@ -7,21 +7,13 @@ tags:
 date: 2020-01-11 15:46:18
 ---
 
-
-
 对于ORM（Object Relational Mapping）框架而言，数据源的组织是一个非常重要的一部分，这直接影响到框架的性能问题。本文将通过对MyBatis框架的数据源结构进行详尽的分析，并且深入解析MyBatis的连接池。
 
 本文首先会讲述MyBatis的数据源的分类，然后会介绍数据源是如何加载和使用的。紧接着将分类介绍UNPOOLED、POOLED和JNDI类型的数据源组织；期间我们会重点讲解POOLED类型的数据源和其实现的连接池原理。
 
 
 
-
-
-图片： {% asset_img name.png This is an example image %} 
-
-svg：<embed src="AQS_queue.svg" width="100%" type="image/svg+xml"/>
-
- 摘要：<!-- more --> 
+<!-- more --> 
 
 
 MyBatis将数据源分为三种类型：
