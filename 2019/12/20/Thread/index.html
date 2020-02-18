@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Java线程共有6种状态，在Thread类中有枚举来详细定义和说明：">
+<meta name="description" content="通用的线程生命周期通用的线程生命周期可以用五态模型来描述。这五态分别是：初始状态、可运行状态、运行状态、休眠状态和终止状态。  123456789//五态模型////  初始状态//     ↓//  可运行状态←---//    ↑↓        ↑//  运行状态  →	休眠状态//     ↓//  终止状态   初始状态。线程已经被创建，但是还不允许分配CPU执行。这个状态属于编程语言特">
 <meta name="keywords" content="并发编程,JDK源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Thread">
 <meta property="og:url" content="https://season-peng.github.io/2019/12/20/Thread/index.html">
 <meta property="og:site_name" content="Season Peng">
-<meta property="og:description" content="Java线程共有6种状态，在Thread类中有枚举来详细定义和说明：">
+<meta property="og:description" content="通用的线程生命周期通用的线程生命周期可以用五态模型来描述。这五态分别是：初始状态、可运行状态、运行状态、休眠状态和终止状态。  123456789//五态模型////  初始状态//     ↓//  可运行状态←---//    ↑↓        ↑//  运行状态  →	休眠状态//     ↓//  终止状态   初始状态。线程已经被创建，但是还不允许分配CPU执行。这个状态属于编程语言特">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-01T14:13:38.259Z">
+<meta property="og:updated_time" content="2020-02-01T15:17:56.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Thread">
-<meta name="twitter:description" content="Java线程共有6种状态，在Thread类中有枚举来详细定义和说明：">
+<meta name="twitter:description" content="通用的线程生命周期通用的线程生命周期可以用五态模型来描述。这五态分别是：初始状态、可运行状态、运行状态、休眠状态和终止状态。  123456789//五态模型////  初始状态//     ↓//  可运行状态←---//    ↑↓        ↑//  运行状态  →	休眠状态//     ↓//  终止状态   初始状态。线程已经被创建，但是还不允许分配CPU执行。这个状态属于编程语言特">
 
 
 
@@ -378,7 +378,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  157
+                  614
                 </span>
               
 
@@ -403,25 +403,39 @@
       
 
       
-        <p>Java线程共有6种状态，在Thread类中有枚举来详细定义和说明：</p>
+        <h1 id="通用的线程生命周期"><a href="#通用的线程生命周期" class="headerlink" title="通用的线程生命周期"></a>通用的线程生命周期</h1><p>通用的线程生命周期可以用五态模型来描述。这五态分别是：初始状态、可运行状态、运行状态、休眠状态和终止状态。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//五态模型</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  初始状态</span></span><br><span class="line"><span class="comment">//     ↓</span></span><br><span class="line"><span class="comment">//  可运行状态←---</span></span><br><span class="line"><span class="comment">//    ↑↓        ↑</span></span><br><span class="line"><span class="comment">//  运行状态  →	休眠状态</span></span><br><span class="line"><span class="comment">//     ↓</span></span><br><span class="line"><span class="comment">//  终止状态</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>初始状态</strong>。线程已经被创建，但是还不允许分配CPU执行。这个状态属于编程语言特有的，在操作系统层面，真正的线程还没有创建。</li>
+<li><strong>可运行状态</strong>。真正的操作系统线程已经成功创建，线程可以分配 CPU 执行。</li>
+<li><strong>运行状态</strong>。当有空闲的CPU时，操作系统会将其分配给一个处于可运行状态的线程，被分配到CPU的线程为、运行状态。</li>
+<li><strong>休眠状态</strong>。运行状态的线程如果调用一个阻塞API，那么线程的状态就会转换到休眠状态。</li>
+<li><strong>终止状态</strong>。线程执行完或者出现异常就会进入终止状态，终止状态的线程不会切换到其他任何状态，进入终止状态也就意味着线程的生命周期结束了。 </li>
+</ol>
+<p>在不同的编程语言中，线程状态也不同。在Java中，线程共有6种状态，合并了可运行和运行状态，细化了休眠状态。在Thread类中有枚举来详细定义和说明：</p>
 <a id="more"></a> 
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Thread.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> State &#123;</span><br><span class="line">    NEW,</span><br><span class="line">    RUNNABLE,</span><br><span class="line">    BLOCKED,</span><br><span class="line">    WAITING,</span><br><span class="line">    TIMED_WAITING,</span><br><span class="line">    TERMINATED;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><p><strong>NEW</strong> 线程刚创建，尚未启动；</p>
+<li><p><strong>NEW</strong> 线程刚创建，还未分配CPU执行；</p>
 </li>
-<li><p><strong>RUNNABLE</strong> 线程正在正常运行中；</p>
+<li><p><strong>RUNNABLE</strong> 线程可以分配CPU执行，调用<code>Thread.start()</code>可进入该状态；</p>
 </li>
-<li><p><strong>BLOCKED</strong> 线程等待进入临界区，如等待另一个线程走出synchronized块；</p>
+<li><p><strong>BLOCKED</strong> 线程等待进入临界区，只有等待synchronized隐式锁这一个场景，才会使线程进入该状态；</p>
 </li>
-<li><p><strong>WAITING</strong> 线程在临界区里面等待唤醒，在临界区内调用wait()后进入WAITING状态，等待另一个调用notify()/notifyAll()；</p>
+<li><p><strong>WAITING</strong> 线程在临界区里面等待唤醒，调用<code>Object.wait()</code>、<code>Thread.join()</code>、<code>LockSupport.park()</code>这三个方法会使线程进入该状态；</p>
 </li>
-<li><p><strong>TIMED_WAITING</strong> 这个状态就是有时间限制的WAITING，如调用wait(long)、join(long)、sleep(long)；</p>
+<li><p><strong>TIMED_WAITING</strong> 这个状态就是有时间限制的WAITING，调用带时间参数的<code>Objec.wait()</code>、<code>Thread.join()</code>、<code>LockSupport.park()</code>、<code>Thread.sleep()</code>这些方法会使线程进入该状态；</p>
 </li>
-<li><p><strong>TERMINATED</strong> 线程执行完run()方法，处于该状态的线程会被GC。</p>
+<li><p><strong>TERMINATED</strong> 线程执行完run()方法或者抛出异常，处于该状态的线程会被GC。</p>
 </li>
 </ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Java线程模型</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  初始状态(NEW)</span></span><br><span class="line"><span class="comment">//     ↓</span></span><br><span class="line"><span class="comment">//  可运行/运行状态(RUNNABLE)←---→休眠状态(BLOCKED/WAITING/TIMED_WAITING)</span></span><br><span class="line"><span class="comment">//     ↓</span></span><br><span class="line"><span class="comment">//  终止状态(TERMINATED)</span></span><br></pre></td></tr></table></figure>
+
+<p>使用jstack诊断问题（待补充）</p>
+<p>死锁、饥饿等情况可以通过跟踪分析线程的状态来解决</p>
 
       
     </div>
@@ -464,8 +478,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/12/20/String/" rel="prev" title="String">
-                String <i class="fa fa-chevron-right"></i>
+              <a href="/2019/12/20/String/" rel="prev" title="Java中的字符串">
+                Java中的字符串 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -518,8 +532,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -534,7 +557,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -545,7 +568,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -556,7 +579,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -579,6 +602,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通用的线程生命周期"><span class="nav-number">1.</span> <span class="nav-text">通用的线程生命周期</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

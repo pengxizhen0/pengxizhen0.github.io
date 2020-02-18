@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="并发编程,JDK源码,">
+  <meta name="keywords" content="CopyOnWrite,CopyOnWriteArrayList,fork,Redis,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="ThreadPoolExecutor">
-<meta name="keywords" content="并发编程,JDK源码">
+<meta name="description" content="写时复制（Copy On Write，CoW）是一种计算机程序设计领域的优化策略。核心思想是，多个调用者同时请求相同资源时，他们会共同获得相同的指针指向相同的资源。直到某个调用者试图修改资源的内容时，系统才会真正复制一份给该调用者只读同一块资源，而其他调用者所见到的最初的资源仍然保持不变。之后根据策略的不同，复制出的资源可以覆盖旧资源，也可以仅供写资源的调用者使用。">
+<meta name="keywords" content="CopyOnWrite,CopyOnWriteArrayList,fork,Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ThreadPoolExecutor">
-<meta property="og:url" content="https://season-peng.github.io/2019/09/20/ThreadPoolExecutor/index.html">
+<meta property="og:title" content="CopyOnWrite">
+<meta property="og:url" content="https://season-peng.github.io/2020/01/04/CopyOnWrite/index.html">
 <meta property="og:site_name" content="Season Peng">
-<meta property="og:description" content="ThreadPoolExecutor">
+<meta property="og:description" content="写时复制（Copy On Write，CoW）是一种计算机程序设计领域的优化策略。核心思想是，多个调用者同时请求相同资源时，他们会共同获得相同的指针指向相同的资源。直到某个调用者试图修改资源的内容时，系统才会真正复制一份给该调用者只读同一块资源，而其他调用者所见到的最初的资源仍然保持不变。之后根据策略的不同，复制出的资源可以覆盖旧资源，也可以仅供写资源的调用者使用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-01T14:11:01.705Z">
+<meta property="og:updated_time" content="2020-02-13T03:58:16.309Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ThreadPoolExecutor">
-<meta name="twitter:description" content="ThreadPoolExecutor">
+<meta name="twitter:title" content="CopyOnWrite">
+<meta name="twitter:description" content="写时复制（Copy On Write，CoW）是一种计算机程序设计领域的优化策略。核心思想是，多个调用者同时请求相同资源时，他们会共同获得相同的指针指向相同的资源。直到某个调用者试图修改资源的内容时，系统才会真正复制一份给该调用者只读同一块资源，而其他调用者所见到的最初的资源仍然保持不变。之后根据策略的不同，复制出的资源可以覆盖旧资源，也可以仅供写资源的调用者使用。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://season-peng.github.io/2019/09/20/ThreadPoolExecutor/">
+  <link rel="canonical" href="https://season-peng.github.io/2020/01/04/CopyOnWrite/">
 
 
 
 
 
-  <title>ThreadPoolExecutor | Season Peng</title>
+  <title>CopyOnWrite | Season Peng</title>
   
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://season-peng.github.io/2019/09/20/ThreadPoolExecutor/">
+    <link itemprop="mainEntityOfPage" href="https://season-peng.github.io/2020/01/04/CopyOnWrite/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Season Peng">
@@ -312,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ThreadPoolExecutor</h1>
+          <h1 class="post-title" itemprop="name headline">CopyOnWrite</h1>
         
 
         <div class="post-meta">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-20T09:54:47+08:00">
-                2019-09-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-04T23:05:39+08:00">
+                2020-01-04
               </time>
             
 
@@ -347,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java知识/" itemprop="url" rel="index">
-                    <span itemprop="name">Java知识</span>
+                  <a href="/categories/并发设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">并发设计模式</span>
                   </a>
                 </span>
 
@@ -378,7 +378,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  804
+                  932
                 </span>
               
 
@@ -403,41 +403,25 @@
       
 
       
-        <h1 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h1><a id="more"></a> 
+        <p>写时复制（Copy On Write，CoW）是一种计算机程序设计领域的优化策略。核心思想是，多个调用者同时请求相同资源时，他们会共同获得相同的指针指向相同的资源。直到某个调用者试图修改资源的内容时，系统才会真正复制一份给该调用者只读同一块资源，而其他调用者所见到的最初的资源仍然保持不变。<strong>之后根据策略的不同，复制出的资源可以覆盖旧资源，也可以仅供写资源的调用者使用</strong>。</p>
+<a id="more"></a> 
 
-<p>线程池共有7个参数可设置</p>
-<ul>
-<li><strong>corePoolSize</strong> 线程池核心线程数</li>
-<li><strong>maximumPoolSize</strong> 线程池最大线程池</li>
-<li><strong>keepAliveTime</strong> 空闲线程存活时间</li>
-<li><strong>unit</strong> 存活时间单位</li>
-<li><strong>workQueue</strong> 工作队列</li>
-<li><strong>threadFactory</strong> 创建线程的工厂</li>
-<li><strong>handler</strong> 拒绝策略</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                          TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                          BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                          ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                          RejectedExecutionHandler handler)</span> </span>&#123;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<embed src="ThreadPoolExecutor.svg" width="100%" type="image/svg+xml">
-
-
-<p>当线程数量大于core时，满足以下两个条件，线程池会开始回收线程：</p>
+<h1 id="Linux中的CoW"><a href="#Linux中的CoW" class="headerlink" title="Linux中的CoW"></a>Linux中的CoW</h1><p>在类Unix操作系统中创建进程的API是<code>fork()</code>，传统的fork()函数会创建父进程的一个完整副本，例如父进程的地址空间现在用到了1G的内存，那么子进程就要复制父进程整个1G地址空间，这个过程是很耗时的。</p>
+<p>在Linux中，fork()子进程并不复制整个进程的地址空间，而是让父子进程共享同一个地址空间。而后只在父进程或者子进程需要写入的时候（如调用<code>exec()</code>系列函数，该函数会装载一个新的程序，替换掉当前进程的地址空间），才会复制地址空间，从而使父子进程拥有各自的地址空间。</p>
+<p>fork()之后，内核把父进程中所有内存页的权限设为read-only，然后子进程的地址空间指向父进程。当父子进程都只读内存时，相安无事。当其中某个进程写内存时，CPU检测到内存页是read-only，于是触发页异常中断（page-fault），陷入内核的一个中断例程。中断例程中，内核会把触发异常的页复制一份，于是父子进程各自持有独立的一页。</p>
+<h1 id="Redis中的CoW"><a href="#Redis中的CoW" class="headerlink" title="Redis中的CoW"></a>Redis中的CoW</h1><p>Redis的哈希表在rehash时，会根据BGSAVE命令或BGREWRITEAOF命令是否正在执行，决定要不要提高负载因子。</p>
+<p>这是因为在执行上述命令的过程中，Redis会执行<code>fork()</code>创建子进程，而大多数操作系统都采用Copy on Write技术来优化子进程的使用效率，所以在子进程存在期间，Redis会提高负载因子，从而尽可能地避免在此期间进行哈希表扩容。这可以避免不必要的内存写入操作，避免不必要的资源复制。</p>
+<h1 id="Java中的CoW"><a href="#Java中的CoW" class="headerlink" title="Java中的CoW"></a>Java中的CoW</h1><p>并发包中的CopyOnWriteArrayList和CopyOnWriteArraySet使用了CoW的思想实现了线程安全的List。相比较于对所有方法加了锁的Vector来说，CoW性能更好。CopyOnWriteArrayList对于读不加锁，性能很好；对于写加锁。</p>
+<p>CopyOnWriteArrayList也有一些限制：</p>
 <ol>
-<li>任务队列为空；</li>
-<li>线程等待任务超过一定时间。</li>
+<li>每次写操作需要创建新的数组，容量较大时易频繁GC。</li>
+<li>数据实时性不高，读取数据时，可能会拿到旧的数组。</li>
 </ol>
-<p>ThreadPoolExecutor</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ThreadPoolExecutor.java</span></span><br><span class="line"><span class="comment">//execute的参数是Runnable，如果准备执行Callable，Callable会被包装成Runnable再调用该方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (command == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    <span class="keyword">int</span> c = ctl.get();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//线程池中的线程数量小于corePoolSize，此时新增线程</span></span><br><span class="line">    <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;</span><br><span class="line">        <span class="keyword">if</span> (addWorker(command, <span class="keyword">true</span>))</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        c = ctl.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//线程数量已达到corePoolSize，此时将任务放入队列，不新增线程</span></span><br><span class="line">    <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;</span><br><span class="line">        <span class="keyword">int</span> recheck = ctl.get();</span><br><span class="line">        <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))</span><br><span class="line">            reject(command);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)</span><br><span class="line">            addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//队列已满，此时再次新增线程</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="keyword">false</span>))</span><br><span class="line">        reject(command);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此CopyOnWriteArrayList比较适合读多写少且对一致性要求不高的场景。例如RPC框架中保存在客户端的路由表。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CopyOnWriteArrayList.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(getArray(), index);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">get</span><span class="params">(Object[] a, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (E) a[index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Object[] elements = getArray();</span><br><span class="line">        <span class="keyword">int</span> len = elements.length;</span><br><span class="line">        Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);</span><br><span class="line">        newElements[len] = e;</span><br><span class="line">        setArray(newElements);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Worker</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ThreadPoolExecutor.java</span></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">runWorker</span><span class="params">(Worker w)</span> </span>&#123;</span><br><span class="line">    Thread wt = Thread.currentThread();</span><br><span class="line">    Runnable task = w.firstTask;</span><br><span class="line">    w.firstTask = <span class="keyword">null</span>;</span><br><span class="line">    w.unlock();</span><br><span class="line">    <span class="keyword">boolean</span> completedAbruptly = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (task != <span class="keyword">null</span> || (task = getTask()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            w.lock();</span><br><span class="line">            <span class="keyword">if</span> ((runStateAtLeast(ctl.get(), STOP) ||</span><br><span class="line">                 (Thread.interrupted() &amp;&amp;</span><br><span class="line">                  runStateAtLeast(ctl.get(), STOP))) &amp;&amp;</span><br><span class="line">                !wt.isInterrupted())</span><br><span class="line">                wt.interrupt();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                beforeExecute(wt, task);</span><br><span class="line">                Throwable thrown = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//对于接收Runnable任务的线程池而言，这里的task.run就是运行任务本身</span></span><br><span class="line">                    <span class="comment">//对于Callable而言，run的是Futuretask。Futuretask将Callable包装成了Runnable</span></span><br><span class="line">                    task.run();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (RuntimeException x) &#123;</span><br><span class="line">                    thrown = x; <span class="keyword">throw</span> x;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Error x) &#123;</span><br><span class="line">                    thrown = x; <span class="keyword">throw</span> x;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Throwable x) &#123;</span><br><span class="line">                    thrown = x; <span class="keyword">throw</span> <span class="keyword">new</span> Error(x);</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                    afterExecute(task, thrown);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                task = <span class="keyword">null</span>;</span><br><span class="line">                w.completedTasks++;</span><br><span class="line">                w.unlock();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        completedAbruptly = <span class="keyword">false</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        processWorkerExit(w, completedAbruptly);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//FutureTask.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (state != NEW ||</span><br><span class="line">        !UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, runnerOffset,</span><br><span class="line">                                     <span class="keyword">null</span>, Thread.currentThread()))</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Callable&lt;V&gt; c = callable;</span><br><span class="line">        <span class="keyword">if</span> (c != <span class="keyword">null</span> &amp;&amp; state == NEW) &#123;</span><br><span class="line">            V result;</span><br><span class="line">            <span class="keyword">boolean</span> ran;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">//这里包装了用户的Callable任务</span></span><br><span class="line">                result = c.call();</span><br><span class="line">                ran = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">                result = <span class="keyword">null</span>;</span><br><span class="line">                ran = <span class="keyword">false</span>;</span><br><span class="line">                setException(ex);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ran)</span><br><span class="line">                set(result);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        runner = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">int</span> s = state;</span><br><span class="line">        <span class="keyword">if</span> (s &gt;= INTERRUPTING)</span><br><span class="line">            handlePossibleCancellationInterrupt(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//FutureTask.java</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">finishCompletion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//waiters是一个线程安全的栈，里面保存了正在等待future结果的线程</span></span><br><span class="line">    <span class="keyword">for</span> (WaitNode q; (q = waiters) != <span class="keyword">null</span>;) &#123;</span><br><span class="line">        <span class="keyword">if</span> (UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, waitersOffset, q, <span class="keyword">null</span>)) &#123;</span><br><span class="line">            <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                Thread t = q.thread;</span><br><span class="line">                <span class="keyword">if</span> (t != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    q.thread = <span class="keyword">null</span>;</span><br><span class="line">                    <span class="comment">//唤醒在future.get等待着的线程</span></span><br><span class="line">                    LockSupport.unpark(t);</span><br><span class="line">                &#125;</span><br><span class="line">                WaitNode next = q.next;</span><br><span class="line">                <span class="keyword">if</span> (next == <span class="keyword">null</span>)</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                q.next = <span class="keyword">null</span>; <span class="comment">// unlink to help gc</span></span><br><span class="line">                q = next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    done();</span><br><span class="line">    callable = <span class="keyword">null</span>;        <span class="comment">// to reduce footprint</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//FutureTask.java</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">awaitDone</span><span class="params">(<span class="keyword">boolean</span> timed, <span class="keyword">long</span> nanos)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">long</span> deadline = timed ? System.nanoTime() + nanos : <span class="number">0L</span>;</span><br><span class="line">    WaitNode q = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">boolean</span> queued = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        <span class="keyword">if</span> (Thread.interrupted()) &#123;</span><br><span class="line">            removeWaiter(q);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> s = state;</span><br><span class="line">        <span class="keyword">if</span> (s &gt; COMPLETING) &#123;</span><br><span class="line">            <span class="keyword">if</span> (q != <span class="keyword">null</span>)</span><br><span class="line">                q.thread = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">return</span> s;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (s == COMPLETING) <span class="comment">// cannot time out yet</span></span><br><span class="line">            Thread.yield();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (q == <span class="keyword">null</span>)</span><br><span class="line">            q = <span class="keyword">new</span> WaitNode();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!queued)</span><br><span class="line">            <span class="comment">//若任务还在执行中，则将该线程作为等待节点压入栈中</span></span><br><span class="line">            queued = UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, waitersOffset,</span><br><span class="line">                                                 q.next = waiters, q);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (timed) &#123;</span><br><span class="line">            nanos = deadline - System.nanoTime();</span><br><span class="line">            <span class="keyword">if</span> (nanos &lt;= <span class="number">0L</span>) &#123;</span><br><span class="line">                removeWaiter(q);</span><br><span class="line">                <span class="keyword">return</span> state;</span><br><span class="line">            &#125;</span><br><span class="line">            LockSupport.parkNanos(<span class="keyword">this</span>, nanos);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="comment">//阻塞线程，等待FutureTask完成</span></span><br><span class="line">            LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在FutureTask的set(result)中，除了改变任务的状态外，还唤醒了在等待的节点。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Linux中的fork()和Java中的CopyOnWriteArrayList都使用了写时复制（Copy on Write， CoW）的思想。fork()在写时会复制出两份资源，而CopyOnWriteArrayList会将新复制出的资源覆盖掉旧资源。</p>
+<p>CoW的缺点是会消耗较多内存，所以在写操作频繁以及数据量较大时不适合使用。</p>
 
       
     </div>
@@ -455,9 +439,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/并发编程/" rel="tag"># 并发编程</a>
+            <a href="/tags/CopyOnWrite/" rel="tag"># CopyOnWrite</a>
           
-            <a href="/tags/JDK源码/" rel="tag"># JDK源码</a>
+            <a href="/tags/CopyOnWriteArrayList/" rel="tag"># CopyOnWriteArrayList</a>
+          
+            <a href="/tags/fork/" rel="tag"># fork</a>
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
           
         </div>
       
@@ -470,8 +458,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/09/ThreadLocal/" rel="next" title="ThreadLocal">
-                <i class="fa fa-chevron-left"></i> ThreadLocal
+              <a href="/2020/01/01/草稿/" rel="next" title="草稿">
+                <i class="fa fa-chevron-left"></i> 草稿
               </a>
             
           </div>
@@ -480,8 +468,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/13/AQS原理/" rel="prev" title="AQS原理">
-                AQS原理 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/01/11/Mybatis数据源与连接池/" rel="prev" title="Mybatis数据源与连接池">
+                Mybatis数据源与连接池 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -559,7 +547,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -570,7 +558,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -581,7 +569,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -614,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ThreadPoolExecutor"><span class="nav-number">1.</span> <span class="nav-text">ThreadPoolExecutor</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux中的CoW"><span class="nav-number">1.</span> <span class="nav-text">Linux中的CoW</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis中的CoW"><span class="nav-number">2.</span> <span class="nav-text">Redis中的CoW</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java中的CoW"><span class="nav-number">3.</span> <span class="nav-text">Java中的CoW</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

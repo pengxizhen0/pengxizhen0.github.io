@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Season Peng">
 <meta property="og:description" content="ThreadLocal">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-01T14:10:06.255Z">
+<meta property="og:updated_time" content="2020-01-03T10:47:04.779Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal">
 <meta name="twitter:description" content="ThreadLocal">
@@ -378,7 +378,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  729
+                  750
                 </span>
               
 
@@ -405,8 +405,8 @@
       
         <h1 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h1><a id="more"></a> 
 
-<p>ThreadLocal类提供了thread-local的变量，即每个线程都持有一份各自独立的变量。每个线程都有一个ThreadLocalMap类型的变量，在Thread类中。</p>
-<p>具体的ThreadLocalMap实例并不是ThreadLocal持有的，而是每个Thread持有，且不同的Thread持有不同的ThreadLocalMap实例, 因此它们不存在竞争。</p>
+<p>ThreadLocal类提供了thread-local的变量，即每个线程都持有一份各自独立的变量。每个Thread类中有一个ThreadLocalMap类型的变量。</p>
+<p>具体的ThreadLocalMap实例并不是ThreadLocal持有的，而是每个Thread持有，且不同的Thread持有不同的ThreadLocalMap实例, 因此它们不存在竞争。每个ThreadLocal只存一个数据，要在同个线程中存多个数据需要多个ThreadLocal。</p>
 <p>下面是ThreadLocal对象引用图，下面的内容参考这张图看会更加容易理解。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">    	map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    	createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -462,8 +462,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/20/ThreadPoolExecutor/" rel="prev" title="ThreadPoolExecutor">
-                ThreadPoolExecutor <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/13/AQS原理/" rel="prev" title="AQS原理">
+                AQS原理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -541,7 +541,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -552,7 +552,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -563,7 +563,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

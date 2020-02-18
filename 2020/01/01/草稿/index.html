@@ -87,10 +87,12 @@
 <meta property="og:site_name" content="Season Peng">
 <meta property="og:description" content="理论上，TCP滑动窗口大小设置为带宽*单向时延*2，乘以2的原因是可以充分利用信道。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-01T14:37:28.912Z">
+<meta property="og:image" content="https://season-peng.github.io/2020/01/01/草稿/并发思维导图.png">
+<meta property="og:updated_time" content="2020-02-15T15:33:48.263Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="草稿">
 <meta name="twitter:description" content="理论上，TCP滑动窗口大小设置为带宽*单向时延*2，乘以2的原因是可以充分利用信道。">
+<meta name="twitter:image" content="https://season-peng.github.io/2020/01/01/草稿/并发思维导图.png">
 
 
 
@@ -378,7 +380,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  387
+                  2.4k
                 </span>
               
 
@@ -415,12 +417,6 @@
 </ul>
 <p>堆排序：第一步：自上而下建堆O(n)；第二步：输出元素并保持有序O(logn)，需要自上而下保持有序</p>
 <p>堆插入：自下而上</p>
-<p>final作用</p>
-<p>哪些是final的</p>
-<p>final对象的成员变量</p>
-<p>String为什么是final</p>
-<p>volatile保证单例？</p>
-<p>错误重写hash函数，equals没有错。对于HashSet和HashMap，会出现什么情况。</p>
 <p>逃逸分析：JVM对程序的优化，可从以下三个方面进行优化：</p>
 <ol>
 <li>栈上分配。不会逃逸的局部变量会被分配在栈上，减少GC。</li>
@@ -451,6 +447,144 @@
 <p>对于Java，在运行时选择平台</p>
 <p>JDK内置工具使用jps、jstack、jmap、jstat</p>
 <p>Java visualVM</p>
+<p>计算机领域的所有问题都可以通过加一个中间层解决。</p>
+<p>All problems in computer science can be solved by another level of indirection. –David Wheeler(世界上第一个计算机博士，剑桥大学)</p>
+<p><a href="https://en.wikipedia.org/wiki/David_Wheeler_(computer_scientist)" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/David_Wheeler_(computer_scientist)</a> </p>
+<h1 id="Java-函数式接口"><a href="#Java-函数式接口" class="headerlink" title="Java 函数式接口"></a>Java 函数式接口</h1><p>函数式接口：有且仅有一个抽象方法，但可以有多个非抽象方法。</p>
+<p>Java8新增了函数式接口，新增的类在<code>java.util.function</code>这个路径下。函数式接口可以被隐式转换为 lambda 表达式。在Java8引入函数式接口之前，其实Java中已经有函数式接口了，就是我们比较熟悉的Runnable和Callable。函数式接口会用注解<code>@FunctionalInterface</code>修饰，该注解主要作用是检查接口是否满足函数式接口的要求，即只有一个抽象方法。</p>
+<table>
+<thead>
+<tr>
+<th align="left">接口</th>
+<th>是否需要输入参数</th>
+<th>是否有返回值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Consumer</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="left">Function</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="left">Supplier</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td align="left">Predicate</td>
+<td>1</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td align="left">Runnable</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td align="left">Callable</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>操作系统：</p>
+<p>信号量模型</p>
+<p>管程模型（管程与信号量是等价的）</p>
+<p>并发问题的三个核心问题：分工、同步、互斥。</p>
+<p>分工：如何高效地拆解任务并分配给线程，哪些任务可并行，哪些任务需串行，任务的分工影响着程序的并发性能；</p>
+<p>同步：线程之间如何协作，即一个线程执行完了一个任务，如何通知下一个线程执行；</p>
+<p>互斥：保证同一时刻只允许一个线程访问共享资源，互斥解决的是线程安全性的问题。</p>
+<img src="/2020/01/01/草稿/并发思维导图.png" title="并发思维导图"> 
+
+
+
+<h1 id="并发问题的根源"><a href="#并发问题的根源" class="headerlink" title="并发问题的根源"></a>并发问题的根源</h1><p>计算机中的CPU、内存、IO设备这三者的速度差异一直都在，为了充分榨干CPU的性能，平衡这三者的性能差异，人们采取了以下方法：</p>
+<ol>
+<li>引入CPU缓存，平衡CPU和内存之间的速度差异；</li>
+<li>对CPU进行分时复用，平衡CPU与IO设备之间的速度差异（多线程）；</li>
+<li>编译程序时对指令进行重排序，更加充分利用缓存。</li>
+</ol>
+<p>但是这些优化措施会带来其他方面的一些问题，需要</p>
+<p>引入缓存会带来可见性的问题，线程切换会带来原子性的问题，编译优化会带来有序性的问题。</p>
+<p>解决这些问题的思路也比较简单，就是禁用相应的优化机制，例如要解决可见性的问题，就按需禁用缓存；解决原子性的问题，就按需禁止线程切换；解决有序性的问题，就按需禁用编译优化。</p>
+<p>其中可见性和有序性的解决依靠的是Java内存模型，具体来说涉及到<strong>volatile</strong>、<strong>synchronized</strong>、<strong>final</strong>三个关键字以及六项<strong>Happens-Before</strong>规则。 原子性利用互斥锁解决。</p>
+<h1 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h1><p>Java8添加了一个新的接口Stream，该接口支持以串行或者并行的方式处理数据。</p>
+<p>Stream将要处理的元素看作流，流在管道中传输，并且可以在管道的节点上进行处理，比如筛选、排序、聚合等。</p>
+<p>元素流在管道中的操作分为两种类型：经过中间操作（intermediate operation）和最终操作(terminal operation)。</p>
+<ul>
+<li>中间操作：中间操作会返回一个新的流，交给下一个操作使用，一个流后面可以跟随零个或多个中间操作。中间操作都是惰性化的（lazy），即调用中间操作时不进行执行动作，在调用最终操作时才真正开始执行动作。</li>
+<li>最终操作：最终操作会返回最终的结果。一个流只能有一个最终操作，当这个操作执行后，流就被消费完了，无法再被操作。</li>
+</ul>
+<p>中间操作：</p>
+<ul>
+<li>filter()</li>
+<li>map()</li>
+<li>flatMap()</li>
+<li>distinct()</li>
+<li>sorted()</li>
+<li>peek()</li>
+<li>limit()</li>
+<li>skip()</li>
+</ul>
+<p>最终操作：</p>
+<ul>
+<li>forEach()</li>
+<li>forEachOrdered()</li>
+<li>toArray()</li>
+<li>reduce()</li>
+<li>collect()</li>
+<li>min()</li>
+<li>max()</li>
+<li>count()</li>
+<li>anyMatch()</li>
+<li>allMatch()</li>
+<li>noneMatch()</li>
+<li>findFirst()</li>
+<li>findAny()</li>
+</ul>
+<p>串行与并行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">10000</span>).forEach(list1::add);<span class="comment">//串行</span></span><br><span class="line">IntStream.range(<span class="number">0</span>, <span class="number">10000</span>).parallel().forEach(list2::add);<span class="comment">//并行，但线程不安全</span></span><br></pre></td></tr></table></figure>
+
+<p>Java中有三种方式可以做并行：</p>
+<ul>
+<li><p>ThreadPoolExecutor线程池</p>
+</li>
+<li><p>Fork/Join框架</p>
+</li>
+<li><p>Stream并行流</p>
+</li>
+</ul>
+<p>关于这三个方式的性能比较，具体可参见参考资料。</p>
+<p><a href="https://blog.overops.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/" target="_blank" rel="noopener">https://blog.overops.com/forkjoin-framework-vs-parallel-streams-vs-executorservice-the-ultimate-benchmark/</a> </p>
+<p>Java Stream性能测试</p>
+<p>三种方式遍历集合：</p>
+<ul>
+<li>显式for循环</li>
+<li>串行Stream</li>
+<li>并行Stream</li>
+</ul>
+<p>并行Stream在任何时候好于其他两者。简单操作for循环好于串行Stream，复杂操作for循环与串行Stream相当。</p>
+<p><a href="https://www.cnblogs.com/secbro/p/11653574.html" target="_blank" rel="noopener">https://www.cnblogs.com/secbro/p/11653574.html</a></p>
+<p><a href="https://www.cnblogs.com/CarpenterLee/p/6675568.html" target="_blank" rel="noopener">https://www.cnblogs.com/CarpenterLee/p/6675568.html</a></p>
+<p> Java线程是和操作系统线程一一对应的，这种做法本质上是将Java线程的调度权完全委托给操作系统，而操作系统在这方面非常成熟，所以这种做法的好处是稳定、可靠，但是也继承了操作系统线程的缺点：创建成本高。为了解决这个缺点，Java并发包里提供了线程池等工具类。</p>
+<p>除了线程一一对应的方案外。业界还有另外一种方案：<strong>轻量级线程</strong>（协程）。这个方案在Java领域知名度并不高，但是在Go、Lua等语言中较为知名。轻量级线程的创建成本很低，基本上和创建一个普通对象的成本相似；并且创建的速度和内存占用相比操作系统线程至少有一个数量级的提升。</p>
+<p>OpenJDK有个Loom项目，就是要解决Java轻量级线程问题，在这个项目中，轻量级线程被叫做<strong>Fiber</strong>。</p>
+<p>在JDK中有ArrayBlockingQueue和LinkedBlockingQueue两种有界队列，它们都是基于ReentrantLock实现的，在高并发场景下，锁的效率并不高。</p>
+<p>Disruptor是一款性能优异的有界无锁内存队列，由LMAX公司开发。 Disruptor应用广泛，在Log4j2、Spring Messaging、HBase、Storm中都有应用。</p>
+<p>Disruptor之所以性能优异，主要有以下几点原因：</p>
+<ol>
+<li>内存分配更加合理，使用RingBuffer数据结构，数组元素在初始化时一次性全部创建，提升缓存命中率；对象循环利用，避免频繁GC。</li>
+<li>能够避免伪共享，提升缓存利用率。</li>
+<li>采用无锁算法，避免频繁加锁、解锁的性能消耗。</li>
+<li>支持批量消费，消费者可以无锁方式消费多个消息。</li>
+</ol>
+<p>这里比较难理解的是第二点伪共享（False sharing）。伪共享会使得Cache失效。 伪共享和CPU内部的Cache有关，Cache内部是按照缓存行（Cache Line）管理的，缓存行的大小通常是64个字节。CPU从内存中加载数据X，会同时加载X后面<code>64-size(X)</code>个字节的数据，以填充满Cache Line。如果一行Cache Line中有多个变量，在多线程环境下，可能被预加载进来的其他变量会因为其他线程的写操作而失效，进而需要重新加载。这样的话，就起不到缓存的作用了。</p>
+<p>Disruptor在优化并发性能方面可谓是做到了极致，优化的思路大体是两个方面：一个是利用无锁算法避免锁的争用，另外一个则是将硬件（CPU）的性能发挥到极致。尤其是后者，在Java领域基本上属于经典之作了。发挥硬件的能力一般是C这种面向硬件的语言擅长做的事，C语言领域经常通过调整内存布局优化内存占用，而Java领域则用的很少，原因在于Java可以智能地优化内存布局，内存布局对程序员是透明的。这种智能的优化大部分场景是很友好的，但是对于伪共享这种情况，就需要通过填充的方式来避免。</p>
+<p>Java8提供了避免伪共享的注解<code>@sun.misc.Contended</code>，通过这个注解可以轻松避免伪共享（需要设置JVM参数 -XX:-RestrictContended），无需手动去填充。需要注意的是避免伪共享是以牺牲内存为代价的。</p>
 
       
     </div>
@@ -484,6 +618,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/04/CopyOnWrite/" rel="prev" title="CopyOnWrite">
+                CopyOnWrite <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -535,8 +673,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -551,7 +698,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -562,7 +709,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -573,7 +720,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -596,6 +743,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-函数式接口"><span class="nav-number">1.</span> <span class="nav-text">Java 函数式接口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#并发问题的根源"><span class="nav-number">2.</span> <span class="nav-text">并发问题的根源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stream"><span class="nav-number">3.</span> <span class="nav-text">Stream</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
